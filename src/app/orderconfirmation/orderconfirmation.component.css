@@ -1,0 +1,12 @@
+.row{
+    margin-bottom: 15px;
+}
+
+.row .col-md-2{
+    font-weight: bold;
+    text-align: right;
+}
+
+button.confirmOrderBtn{
+    margin-left: 10px;
+}

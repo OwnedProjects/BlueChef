@@ -1,0 +1,51 @@
+.table{
+    margin-bottom: 0px;
+    font-size: 0.8em;
+}
+
+.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td{
+    padding: 5px;
+}
+
+.table > thead > tr >  th:last-child{
+    padding-right: 12px;
+}
+
+.panel{
+    min-height: 320px;
+    height: 320px;
+}
+
+.table .btn{
+    margin-top: 15px;
+}
+
+.panel-heading{
+    height: 57px;
+}
+
+.panel-heading.floatLeft{
+    width: 100%;
+}
+
+.panel-heading h3{
+    margin-top: 10px;
+}
+
+.panel-body.floatLeft{
+    width: 100%;
+}
+
+.searchBoxGroup{
+    width: 50%;
+    font-size: 0.8em;
+}
+
+.searchBoxGroup input, .searchBoxGroup span{
+    height: auto;
+    padding: 5px 15px;
+}
+
+.table .btn{
+    margin-top: 0px;
+}

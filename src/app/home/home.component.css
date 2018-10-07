@@ -1,0 +1,91 @@
+h1.cursive-font{
+    margin: 100px 0 0 0;
+    padding: 0;
+    color: white;
+    font-size: 5em;
+    line-height: 1.5;
+    font-weight: 300;
+    font-family: "Kaushan Script", cursive !important;
+}
+
+.container{
+    min-height: 540px;
+    position: relative;
+    z-index: 12;
+}
+
+.form-wrap{
+    border-top: 10px solid #FBB448;
+    position: relative;
+    width: 100%;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+}
+
+.form-wrap .tab-content {
+    z-index: 10;
+    position: relative;
+    clear: both;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+}
+
+.form-wrap .tab-content h3 {
+    color: #fff;
+}
+
+.form-wrap h3 {
+    font-family: "Kaushan Script", cursive;
+}
+
+.form-wrap .tab-content label {
+    color: rgba(255, 255, 255, 0.8);
+}
+.form label {
+    font-weight: normal !important;
+}
+
+.form-wrap .tab-content .form-control {
+    color: #fff !important;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+    h1.cursive-font{
+        font-size: 2.5em;
+        margin: 0;
+    }
+}
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    h1.cursive-font{
+        font-size: 2.5em;
+        margin: 0;
+    }
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+    h1.cursive-font{
+        font-size: 2.5em;
+        margin: 0;
+    }
+}

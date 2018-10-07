@@ -1,0 +1,132 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+  <h4 class="text-primary fonts">Place Order</h4>
+  
+  <div class="alert alert-danger" role="alert" *ngIf="orderPresent">
+    <strong>NOTE!</strong> There is an order you haven't confirmed. <a href="javascript:void(0);" (click)="view_order()" class="btn-link">Click</a> to view or <a href="javascript:void(0)" (click)="remove_order()" class="btn-link">Remove</a> it.
+  </div>
+
+  <hr>
+  <div class="p0 orderform" [ngClass]="{'col-md-9':openOrders,'col-md-12': !openOrders}">
+    <div class="col-md-4">
+      <label>Date & Time</label>
+      <input type="text" class="form-control" placeholder="Enter Date (DD/MM/YYYY)" (blur)="validate_date()" [(ngModel)]="dtpDelDate" maxlength="10">
+      <h6 class="text-danger" *ngIf="dateError == true">*Invalid date</h6>
+    </div>
+    <div class="col-md-4">
+      <label>Contact</label>
+      <input type="text" class="form-control" placeholder="Contact Number" [(ngModel)]="contactNo">
+    </div>
+    <div class="col-md-4 ">
+      <label>Order By</label>
+      <input type="text" class="form-control" placeholder="Order Taken By" [(ngModel)]="orderTakenBy">
+    </div>
+    <div class="col-md-6 ">
+      <label>Delivery Address</label>
+      <textarea class="form-control" placeholder="Delivery Address" [(ngModel)]="delAddress"></textarea>
+    </div>
+    <div class="col-md-6 ">
+      <label>Remarks</label>
+      <textarea class="form-control" placeholder="Remarks if any" [(ngModel)]="remarks"></textarea>
+    </div>
+    
+    <div class="col-md-12">
+      <br/>
+      <h5 class="text-danger fonts">Menu</h5>
+      <hr class="addMenuhr" />
+    </div>
+    
+    <!-- All Menus list -->
+    <datalist id="allmenu">
+      <option value="{{menu.id}}.{{menu.name}}.{{menu.rate}}" *ngFor="let menu of all_menus">{{menu.name}}</option>
+    </datalist>
+
+    <div class="col-md-12">
+        <div class="col-md-6 p0">
+            <span>Enter Menu</span>
+            <input type="text" class="form-control menutextbox" placeholder="Enter Menu" list="allmenu" [(ngModel)]="menunm" (blur)="check_menu_name()" [readonly]="editOrder>=0"/>
+            <h6 class="text-danger" *ngIf="menuError">*{{menuError}}</h6>
+        </div>
+        <div class="col-md-3">
+          <span>Quantity</span>
+          <input type="text" class="form-control menutextbox" placeholder="Quantity" [(ngModel)]="quantity" (blur)="validate_number()" (keyup)="validate_number()"/>
+          <h6 class="text-danger" *ngIf="!qtyError">*Invalid quantity</h6>
+        </div>
+        <div class="col-md-3 p0">
+          <button class="btn btn-sm btn-info btn-addmenu" (click)="add_menu()" [disabled]="!menunm || !quantity || menuError || !qtyError" *ngIf="editOrder<0">
+            <i class="fa fa-plus"></i> Add Menu
+          </button>
+          <button class="btn btn-sm btn-warning btn-addmenu" (click)="save_editOrder()" *ngIf="editOrder>=0" [disabled]="!quantity || !qtyError">
+            <i class="fa fa-pencil"></i> Save
+          </button>
+          <button class="btn btn-sm btn-default btn-addmenu" (click)="cancel_editOrder()" *ngIf="editOrder>=0">
+            <i class="fa fa-times"></i> Cancel
+          </button>
+        </div>
+        <div class="col-md-12 p0">
+          <table class="table menuTable">
+            <thead>
+                <tr>
+                  <th width="40px">#</th>
+                  <th>Menu Name</th>
+                  <th>Rate</th>
+                  <th>Quantity</th>
+                  <th>Amount</th>
+                  <th width="90px">&nbsp;</th>
+                </tr>
+              </thead>
+            <tbody>
+              <tr *ngFor="let order of order_menu; let i = index">
+                <td width="40px">{{i+1}}</td>
+                <td>{{order.name}}</td>
+                <td>{{order.rate}}</td>
+                <td>{{order.qty}}</td>
+                <td>{{order.amount}}</td>
+                <td width="90px">
+                  <button class="btn btn-xs btn-warning ml10" (click)="edit_ordermenu(i)" *ngIf="editOrder<0" title="Edit order"><i class="fa fa-pencil"></i></button>
+                  <button class="btn btn-xs btn-danger ml10" (click)="remove_ordermenu(i)" *ngIf="editOrder<0" title="Remove order"><i class="fa fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr *ngIf="order_menu.length<=0">
+                <td colspan="6">Please select a menu...</td>
+              </tr>
+              <tr>
+                <td colspan="4" class="textRight bold">Total:</td>
+                <td class="bold">{{totalAmount}}</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <button class="btn btn-sm btn-primary" [disabled]="order_menu.length<=0 || !dtpDelDate || !delAddress || !contactNo || !orderTakenBy || dateError" (click)="place_order()">Place Order</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 order-sidepanel" *ngIf="openOrders">
+      <h4 class="text-primary"><i class="fa fa-list-ul"></i> Open Orders</h4>
+      <hr/>
+      <!-- <h5 class="text-primary" *ngIf="!openOrders"><i class="fa fa-spinner fa-pulse"></i> Please wait...</h5> -->
+      <table class="table" *ngFor="let order of openOrders">
+          <thead>
+            <tr>
+              <th colspan="2"><span class="text-primary">#1</span> Order no. ORD-{{order.id}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Order date</td>
+              <td>{{order.order_date | date: 'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+              <td>Delivery date</td>
+              <td>{{order.delivery_date | date: 'dd-MM-yyyy'}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div> <!-- Container -->
+</div>

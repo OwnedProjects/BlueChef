@@ -1,0 +1,48 @@
+<div class="mainbg">
+<app-nav></app-nav>
+<div class="container maincontainer">
+  <h4 class="text-primary pagetitle">Add Product</h4>
+  <hr>
+  <div class="col-md-6">
+      <label>Product Name</label>
+      <input type="text" class="form-control" placeholder="Product Name">
+      <br>
+  </div>
+  <div class="col-md-6">
+    <label>Unit Name</label>
+    <input type="text" class="form-control" list="unitnm" placeholder="Unit Name">
+    <datalist id="unitnm">
+      <option value="number">number</option>
+      <option value="kg">kg</option>
+    </datalist>
+    <br>
+  </div>
+  <div class="col-md-12">
+      <button class="btn btn-primary"><i class="fa fa-save"></i> Add</button>
+  </div>
+
+  <div class="col-md-12">
+    <br/>
+    <h3 class="text-primary pagetitle"> All Products</h3>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <div class="input-group searchBoxGroup floatRight">
+        <span class="input-group-addon btn-info" id="basic-addon1">
+            <i class="fa fa-search"></i>
+        </span>
+        <input class="form-control" placeholder="Search Product" aria-describedby="basic-addon1">
+      </div>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Unit</th>
+          <th>Active/De-Active</th>
+        </tr>
+      </thead>
+      </table>
+    </div>
+</div>

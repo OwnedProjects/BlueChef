@@ -1,0 +1,64 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+      <h4 class="text-primary pagetitle">Add Supplier</h4>
+      <hr>
+      <div class="col-md-6">
+        <label>Supplier Name</label>
+        <input type="text" class="form-control" placeholder="Name">
+        <br>
+        <label>Address</label>
+        <input type="text" class="form-control" placeholder="Addresss">
+        <br>
+      </div>
+      <div class="col-md-6">
+        <label>Contact Person</label>
+        <input type="text" class="form-control"  placeholder="Contact Person">
+        <br>
+        <label>Contact Number</label>
+        <input type="text" class="form-control" placeholder="Contact Number">
+        <br>
+      </div>
+       <div class="col-md-12">
+          <h4 class="text-primary pagetitle underline">Products</h4>
+          <div class="col-md-8 row">
+              <div class="input-group searchBoxGroup floatRight">
+                <span class="input-group-addon btn-info" id="basic-addon1">
+                    <i class="fa fa-search"></i>
+                </span>
+                <input class="form-control" placeholder="Search Product" aria-describedby="basic-addon1" list="product">
+              </div>
+          </div>
+          <div class="col-md-4">
+              <button class="btn btn-info"><i class="fa fa-plus"></i> Add</button>
+          </div>
+          <datalist id="product">
+              <option value="Abc">Abc</option>
+              <option value="Xyz">Xyz</option>
+          </datalist><br>
+          
+        <div class="col-md-12 row">
+          <br>
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Product Name</th>
+                  <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+              <td>1</td>
+              <td>abc</td>
+              <td>
+                <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+              </td>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-12 row">
+          <button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+        </div>
+        </div>
+    </div>
+</div>

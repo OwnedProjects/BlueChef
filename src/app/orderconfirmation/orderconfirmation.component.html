@@ -1,0 +1,73 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+    <h4 class="text-primary fonts">Order Confirmation</h4>
+    <hr/>
+    <div class="col-md-12" *ngIf="errorFlag">
+      <div class="alert alert-danger" role="alert">
+        <strong>Oh snap!</strong> Order cannot be confirmed, please try after some time.
+      </div>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-2">Order expected on:</div>
+      <div class="col-md-8">{{orderPresent.dtpDelDate | date: 'dd-MM-yyyy'}}</div>
+      <br/>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-2">Contact number:</div>
+      <div class="col-md-8">{{orderPresent.contactNo}}</div>
+      <br/>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-2">Delivery address:</div>
+      <div class="col-md-8">{{orderPresent.delAddress}}</div>
+      <br/>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-2">Remarks:</div>
+      <div class="col-md-8">{{orderPresent.remarks}}</div>
+      <br/>
+    </div>
+
+    <div class="col-md-12">
+      <table class="table menuTable">
+        <thead>
+            <tr>
+              <th>Sr.no</th>
+              <th>Menu Name</th>
+              <th>Rate</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr *ngFor="let order of orderPresent.orderMenu; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{order.name}}</td>
+            <td>{{order.rate}}</td>
+            <td>{{order.qty}}</td>
+            <td>{{order.amount}}</td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+            <td class="textRight bold">Total:</td>
+            <td class="bold">{{totalAmount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-12 row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-warning" (click)="change_order()">Change Order</button>
+        <button type="button" class="btn btn-primary confirmOrderBtn" (click)="confirm_order()">Confirm Order</button>
+      </div>
+      <br/>
+    </div>
+
+  </div>
+</div>

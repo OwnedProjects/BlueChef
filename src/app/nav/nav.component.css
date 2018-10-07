@@ -1,0 +1,40 @@
+.navbar-default{
+    background: inherit;
+    border-color: transparent;
+    z-index: 11;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+    color: rgba(255, 255, 255, 0.8);
+    background-color: inherit;
+}
+
+.navbar-default .navbar-nav > li > a{
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-brand{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.navbar-brand em, .navbar-default .navbar-nav > li > a.username {
+    color: #FBB448;
+}
+
+.navbar-nav .open .dropdown-menu{
+    background-color: #ffffff;
+}
+
+.navbar-default .navbar-brand{
+    color: #ffffff;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{
+    color: #ffffff;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+    background-color: #FBB448;
+    color: #ffffff;
+}

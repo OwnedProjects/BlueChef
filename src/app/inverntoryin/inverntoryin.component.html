@@ -1,0 +1,74 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+    <h4 class="text-primary pagetitle">Add Inventory</h4>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12  col-md-12">
+        <div class="col-xs-12 col-md-6">
+          <label>Supplier Name</label>
+          <input type="text" class="form-control" list="supList" placeholder="Enter supplier name">
+          <datalist id=supList>
+            <option value="Suppler1">
+            <option value="ASuppler2">
+            <option value="CSuppler3">
+            <option value="RSuppler4">
+            <option value="ASuppler5">
+          </datalist>
+        </div>
+        <div class="col-xs-12 col-md-6">    
+          <label>Date And Time</label>
+          <input type="text" class="form-control ">
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <label>Bill No.</label>
+          <input type="text" class="form-control">
+        </div>
+        
+        <div class="col-md-12">
+        <br/>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="pull-right">
+                  <button class="btn btn-sm btn-info">Add Product &nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <table class="table table-striped">
+                  <thead>
+                    <th>Sr</th>
+                    <th>Product Name</th>
+                    <th>Rate</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                  </thead>
+                  <tbody>
+                    <td>1</td>
+                    <td><input type="text" class="form-control" list="proList" style="width:80%">
+                      <datalist id=proList>
+                        <option value="Product1">
+                        <option value="AProduct2">
+                        <option value="CProduct3">
+                        <option value="RProductr4">
+                        <option value="AProduct5">
+                      </datalist>
+                    </td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>      <!-- panel -->
+        </div>      <!--col-md-12-->
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,57 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+      <h4 class="text-primary pagetitle">Add Hotel</h4>
+      <hr>
+      <div class="col-md-6">
+        <label>Hotel Name</label>
+        <input type="text" class="form-control" placeholder="Hotel Name">
+        <br>
+        <label>Address</label>
+        <textarea placeholder="Address" class="form-control"></textarea>
+        <br>
+      </div>
+      <div class="col-md-6">
+          <label>Contact Person</label>
+          <input type="text" class="form-control" list="contactperson" placeholder="Contact Person">
+          <datalist id="contactperson">
+          <option value="Abc">Abc</option>
+          <option value="Xyz">Xyz</option>
+        </datalist>
+        <br>
+        <label>Contact Number</label>
+        <input type="text" class="form-control" placeholder="Contact Number">
+        <br>
+      </div>
+      <div class="col-md-12">
+        <button  class="btn btn-primary"><i class="fa fa-save"></i> Add New</button>
+      </div>
+      <div class="col-md-12">
+        <br/>
+        <h3 class="text-primary pagetitle"> All Hotels</h3>
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <div class="input-group searchBoxGroup floatRight">
+            <span class="input-group-addon btn-info" id="basic-addon1">
+                <i class="fa fa-search"></i>
+            </span>
+            <input class="form-control" placeholder="Search Menu" aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="col-md-12 row">
+          <br>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Hotel Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Activate/De-Activate</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
