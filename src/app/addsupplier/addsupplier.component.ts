@@ -55,11 +55,7 @@ export class AddsupplierComponent implements OnInit {
     this._supplierService.addSupplier(this.sname, this.sadd, this.scontp, this.scontno, this.userdata[0].id)
       .subscribe(response => {
         if (response['status'] === 200) {
-          this._supplierService.getSuppliers().subscribe(res => {
-            this.supplier_list = res['data'];
-          }, err => {
-            console.log("Error:", err);
-          });
+         this.getSupplier();
 
           this.successFlag = `Supplier added successfully`;
           setTimeout(() => {
@@ -83,11 +79,7 @@ export class AddsupplierComponent implements OnInit {
     this._supplierService.toggleSuppliers(id, action, this.userdata[0].id)
       .subscribe(response => {
         if (response["status"] === 200) {
-          this._supplierService.getSuppliers().subscribe(res => {
-            this.supplier_list = res['data'];
-          },  err => {
-              console.log("Error:", err);
-            });
+          this.getSupplier();
 
         } else {
           alert("Can not deactivate hotel.Please try again later")

@@ -27,14 +27,19 @@ export class AddUserComponent implements OnInit {
     } else {
       this.router.navigate(["/home"]);
     }
+    
+    this.roleList();
+
+  }
+
+  roleList() {
     this._userService.getRoles().subscribe(response => {
-      this.role_list = response["data"];
-    },
-      err => {
+      if (response["status"] === 200) {
+        this.role_list = response["data"];
+      }
+    }, err => {
         console.log("Error:", err);
-      });
-
-
+    });
   }
 
   addUser() {
@@ -47,8 +52,7 @@ export class AddUserComponent implements OnInit {
             this.successFlag = null;
           }, 3000);
 
-        }
-        else {
+        } else {
           this.errorFlag = "User cannot be added now, Kindly try after some time";
           setTimeout(() => {
             this.errorFlag = null;
@@ -57,15 +61,15 @@ export class AddUserComponent implements OnInit {
       },
       error => {
         //console.log(error);
-
-      })
-    //reset fields
+      });
+    // reset fields
     this.uname = this.fname = this.lname = this.passwd = this.cont = this.role = null;
     //}
     //else{
     //  this.errorMessage = "*Username or Password cannot be blank."
     //}
   }
+
   keyPressNum(event: any) {
     const pattern = /[0-9\+\-\ ]/;
 

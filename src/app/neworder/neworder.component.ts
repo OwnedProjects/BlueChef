@@ -52,15 +52,7 @@ export class NeworderComponent implements OnInit {
       }
     });
 
-    this._menu.getAllMenus().subscribe(response => {
-      console.log("getAllMenus: ",response);
-      if(response){
-        this.all_menus = response["data"];
-      }
-    },
-    err => {
-      console.log("Error:", err);
-    });
+    this.menuList();
 
     var dt = new Date();
     if(dt.getDate()<10 && (dt.getMonth()+1)<10){
@@ -74,6 +66,18 @@ export class NeworderComponent implements OnInit {
     }
     //this.dtpDelDate = dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear()
     
+  }
+
+  menuList() {
+    this._menu.getAllMenus().subscribe(response => {
+      // console.log("getAllMenus: ",response);
+      if(response){
+        this.all_menus = response["data"];
+      }
+    },
+    err => {
+      console.log("Error:", err);
+    });
   }
 
   add_menu(){

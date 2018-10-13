@@ -28,45 +28,53 @@ export class RatesComponent implements OnInit {
     } else {
       this.router.navigate(["/home"]);
     }
+    
+    this.getHotelList();
+    this.getMenus();
+
+  }
+
+  getHotelList() {
     this._hotelService.getUserHotel().subscribe(response => {
-      this.hotel_list = response["data"];
-    },
-      err => {
-        console.log("Error:", err);
-      });
-      this._menuService.getMenuList().subscribe(response => {
+      if (response["status"] === 200) {
+        this.hotel_list = response["data"];
+      }
+    }, err => {
+      console.log("Error:", err);
+    });
+  }
+
+  getMenus() {
+    this._menuService.getMenuList().subscribe(response => {
+      if (response["status"] === 200) {
         this.menu_list = response["data"];
-      },
-        err => {
-          console.log("Error:", err);
-        });
-  
-     
+      }
+    },  err => {
+      console.log("Error:", err);
+    });
   }
 
   addRate() {
-    this._rateService.addRate(this.hname, this.mname,this.rate, this.userdata[0].id)
+    this._rateService.addRate(this.hname, this.mname, this.rate, this.userdata[0].id)
       .subscribe(response => {
-        if (response["status"] == 200) {
+        if (response["status"] === 200) {
           this.successFlag = "Rate added successfully";
           setTimeout(() => {
             this.successFlag = null;
           }, 3000);
-        }
-        else {
+        }  else {
           this.errorFlag = "Rate cannot be added now, Kindly try after some time";
           setTimeout(() => {
             this.errorFlag = null;
           }, 3000);
         }
-      },
-        error => {
+      }, error => {
           console.log(error);
-
-        })
-    //reset fields
+        });
+    // reset fields
     this.mname = this.mname = null;
   }
+
   keyPressNum(event: any) {
     const pattern = /[0-9\+\-\ ]/;
 
