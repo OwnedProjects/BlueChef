@@ -7,15 +7,40 @@ import { Injectable } from '@angular/core';
 })
 export class HotelService {
   server: any;
+  hcont: any;
+  hcontid: any;
   constructor(private _http: HttpClient, private _global: GlobalService) {
     this.server = _global.serverpath;
   }
 
-  getUserHotel(uid){
-    let userData = { 
-      "userid": uid
-    };
+  getUserHotel(){
+    return this._http.get(this.server + 'assets/db/hotel.php?action=userHotel')
+  }
+  
+  getUsers(){
+    return this._http.get(this.server + 'assets/db/hotel.php?action=usersList')
+  }
 
-    return this._http.post(this.server + 'assets/db/hotel.php?action=userHotel', userData);
+  addHotel(hname, hadd, hcont, hno, userid) {
+    this.hcontid = hcont.split('.')[0];
+    this.hcont = hcont.split('.')[1];
+    let hotelObj = {
+      'hname': hname,
+      'hadd': hadd,
+      'hcontid': this.hcontid,
+      'hcont': this.hcont,
+      'hno': hno,
+      'userid': userid
+    }
+    return this._http.post(this.server + "assets/db/hotel.php?action=addHotel", hotelObj);
+  }
+
+  toggleHotel(hid, action, userid) {
+    let toggleObj = {
+      'hid': hid,
+      'action': action,
+      'userid': userid
+    }
+    return this._http.post(this.server + "assets/db/hotel.php?action=toggleHotel", toggleObj);
   }
 }

@@ -7,9 +7,9 @@ include 'conn.php';
 
 $action = $_GET['action'];
 
-if($action == "userHotel"){
+if($action == "supplierList"){
 	$rows= array();
-	$sql = "SELECT u.user_name,h.id,h.address,h.contact_person,h.contact_number,h.name,h.deleted_by FROM `user_register` u, `hotel_register` h WHERE u.id = h.user_id";
+	$sql = "SELECT id,name,contact_address,contact_person,contact_number,deleted_by FROM supplier_register";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_array())
 	{
@@ -25,8 +25,7 @@ if($action == "userHotel"){
 			$tmp[$i]['id'] = $row['id'];
 			$tmp[$i]['name'] = $row['name'];
 			$tmp[$i]['cont_no'] = $row['contact_number'];
-			$tmp[$i]['user_name'] = $row['user_name'];
-			$tmp[$i]['address'] = $row['address'];
+			$tmp[$i]['address'] = $row['contact_address'];
 			$tmp[$i]['contact_person'] = $row['contact_person'];
 			$tmp[$i]['contact_number'] = $row['contact_number'];
 			$tmp[$i]['deleted_by'] = $row['deleted_by'];
@@ -44,56 +43,23 @@ if($action == "userHotel"){
 	echo json_encode($data);
 }
 
-	//get user
-if($action == "usersList"){
-
-	$sql = "select * from user_register";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_array())
-	{
-		$rows[] = $row;
-	}
-
-	$tmp = array();
-	$data = array();
-	$i = 0;
-
-	if(count($rows)>0){
-		foreach($rows as $row)
-		{
-			$tmp[$i]['id'] = $row['id'];
-			$tmp[$i]['fname'] = $row['first_name'];
-			$tmp[$i]['lname'] = $row['last_name'];
-			$i++;
-		}
-		$data["status"] = 200;
-		$data["data"] = $tmp;
-		header(' ', true, 200);
-	}
-	else{
-		$data["status"] = 204;
-		header(' ', true, 204);
-	}
-
-	echo json_encode($data);
-}
-if($action=='addHotel'){
+ 
+if($action=='addSupplier'){
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$data = json_decode(file_get_contents("php://input"));
 		$data1=array();
 
-		$hname = $data->hname;
-		$hadd = $data->hadd;
-		$hcont = $data->hcont;
-		$hcontid = $data->hcontid;
-		$hno = $data->hno;
+		$sname = $data->sname;
+		$sadd = $data->sadd;
+		$scontp = $data->scontp;
+		$scontno = $data->scontno;
 		$userid = $data->userid;
 
 
-		$addHotel="INSERT INTO hotel_register(name,address,contact_person,contact_number,user_id,created_by,modified_by)VALUES('$hname','$hadd','$hcont','$hno','$hcontid','$userid','$userid')";
+		$addSupplier="INSERT INTO supplier_register(name,contact_address,contact_person,contact_number,created_by,modified_by)VALUES('$sname','$sadd','$scontp','$scontno','$userid','$userid')";
 
-		$result=$conn->query($addHotel);
+		$result=$conn->query($addSupplier);
 
 	}
 	if($result){
@@ -107,24 +73,24 @@ if($action=='addHotel'){
 	echo json_encode($data1);
 }
 
-if($action=='toggleHotel'){
+if($action=='toggleSupplier'){
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$data = json_decode(file_get_contents("php://input"));
 		$data1=array();
 
-		$hid = $data->hid;
+		$sid = $data->sid;
 		$action = $data->action;
 		$userid = $data->userid;
 		
 
 		 if($action === 'activate'){
 		 
-		 	$toggleHotel="Update hotel_register set  modified_by='$userid' , modified_on=CURDATE(),  deleted_by=null,deleted_on=null where id= $hid";
+		 	$toggleHotel="Update supplier_register set modified_by='$userid' , modified_on=CURDATE(), deleted_by=null,deleted_on=null where id= $sid";
 		}
 		 if($action === 'deactivate'){
 		 
-			$toggleHotel="Update hotel_register set  modified_by='$userid' , modified_on=CURDATE(),  deleted_by='$userid' ,deleted_on= CURDATE() where  id= $hid";
+			$toggleHotel="Update supplier_register set modified_by='$userid' , modified_on=CURDATE(),  deleted_by='$userid' ,deleted_on= CURDATE() where  id= $sid";
 			 
 		}	
 

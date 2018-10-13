@@ -23,8 +23,6 @@ export class OrderService {
       orderTakenBy: orderTakenBy,
       orderMenu: orderMenu
     };
-    console.log("place order");
-    
     return this._http.post(this.server + "assets/db/order.php?action=placeOrder", tmpObj);
   }
   
@@ -36,15 +34,7 @@ export class OrderService {
     return this._http.get(this.server + "assets/db/order.php?action=getOrderDetails&hotelid="+hotelId+"&orderid="+ordId);
   }
 
-  // This is for sync
-  // async getAllOpenOrders(): Promise<any>{
-  //   //return this._http.get(this.server + "assets/db/order.php?action=getAllOpenOrders");
-  //   const response = await this._http.get(this.server + "assets/db/order.php?action=getAllOpenOrders").toPromise();
-  //   return response;
-  // }
-  
   getAllOpenOrders(){
     return this._http.get(this.server + "assets/db/order.php?action=getAllOpenOrders");
   }
-
 }

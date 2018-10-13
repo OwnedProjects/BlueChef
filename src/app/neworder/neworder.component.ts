@@ -27,7 +27,6 @@ export class NeworderComponent implements OnInit {
   remarks: String = null;
   openOrders: any;
   orderPresent: any;
-  userData: any;
 
   constructor(private _order: OrderService, private _menu: MenuService, private _hotel: HotelService, private router: Router) { }
 
@@ -41,12 +40,7 @@ export class NeworderComponent implements OnInit {
       }
     }
 
-    if(sessionStorage.getItem("userdata")){
-      this.userData = JSON.parse(sessionStorage.getItem("userdata"));
-      //console.log("User Data: ", this.userData);
-    }
-
-    this._hotel.getUserHotel(this.userData[0].id).subscribe(res =>{
+    this._hotel.getUserHotel().subscribe(res =>{
       console.log("Init Hotel: ",res);
       if(res){
         sessionStorage.setItem("hotel_id", res["data"][0].id)
@@ -54,9 +48,18 @@ export class NeworderComponent implements OnInit {
         this.delAddress = res["data"][0].address;
         this.orderTakenBy = res["data"][0].contact_person;
         this.contactNo = res["data"][0].contact_number;
-        this.get_all_menus();
         this.get_all_orders();
       }
+    });
+
+    this._menu.getAllMenus().subscribe(response => {
+      console.log("getAllMenus: ",response);
+      if(response){
+        this.all_menus = response["data"];
+      }
+    },
+    err => {
+      console.log("Error:", err);
     });
 
     var dt = new Date();
@@ -74,7 +77,7 @@ export class NeworderComponent implements OnInit {
   }
 
   add_menu(){
-    //console.log(this.menunm, this.quantity);
+    console.log(this.menunm, this.quantity);
     let tmpOrder: any = {
       "menuid": parseFloat(this.menunm.split(".")[0]),
       "name": this.menunm.split(".")[1],
@@ -93,7 +96,7 @@ export class NeworderComponent implements OnInit {
     let flag: Boolean = false;
     if(this.menunm){
       for(let i in this.all_menus){
-        //console.log(this.menunm.split(".")[1], this.all_menus[i].name)
+        console.log(this.menunm.split(".")[1], this.all_menus[i].name)
         if(this.menunm.split(".")[1] == this.all_menus[i].name){
           flag = true;
           break;
@@ -182,18 +185,6 @@ export class NeworderComponent implements OnInit {
       })
   }
 
-  get_all_menus(){
-    this._menu.getAllMenus(this.hotelID).subscribe(response => {
-      console.log("getAllMenus: ",response);
-      if(response){
-        this.all_menus = response["data"];
-      }
-    },
-    err => {
-      console.log("getAllMenus Error:", err);
-    });
-  }
-
   validate_number(){
     if(this.quantity){
       let pattern = /^\d*$/;
@@ -202,26 +193,26 @@ export class NeworderComponent implements OnInit {
   }
 
   view_order(){
-    //console.log(this.orderPresent.dtpDelDate);
+    console.log(this.orderPresent.dtpDelDate);
     debugger;
     let dt = new Date();
     dt.setTime(this.orderPresent.dtpDelDate);
-    //console.log(dt.getDate(), dt.getMonth(), dt.getFullYear());
+    console.log(dt.getDate(), dt.getMonth(), dt.getFullYear());
     
     if(dt.getDate()<10 && (dt.getMonth()+1)<10){
-      //console.log("A1");
+      console.log("A1");
       this.dtpDelDate = "0"+ dt.getDate() + "/0" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
     else if(dt.getDate()<10){
-      //console.log("A2");
+      console.log("A2");
       this.dtpDelDate = "0"+dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
     else if((dt.getMonth()+1)<10){
-      //console.log("A3");
+      console.log("A3");
       this.dtpDelDate = dt.getDate() + "/0" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
     else{
-      //console.log("A4")
+      console.log("A4")
       this.dtpDelDate = dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
     

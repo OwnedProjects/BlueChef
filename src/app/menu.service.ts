@@ -7,14 +7,40 @@ import { Injectable } from '@angular/core';
 })
 export class MenuService {
   server: any;
+  mtype: any;
   constructor(private _http: HttpClient, private _global: GlobalService) {
     this.server = _global.serverpath;
   }
 
-  getAllMenus(hotelId){
-    let hotelData = { 
-      "hid": hotelId
-    };
-    return this._http.post(this.server + 'assets/db/menu.php?action=allMenus', hotelData);
+  getAllMenus(){
+    return this._http.get(this.server + 'assets/db/menu.php?action=allMenus');
   }
+  getMtype(){
+    return this._http.get(this.server + 'assets/db/menu.php?action=menuType');
+  }
+  getMenuList(){
+    return this._http.get(this.server + 'assets/db/menu.php?action=menuList');
+  }
+
+  addMenu(mname, mtype, userid) {
+   
+    this.mtype = mtype.split('.')[0];
+    let menuObj = {
+      'mname': mname,
+      'mtypeid': this.mtype,
+      'userid': userid
+    }
+    return this._http.post(this.server + "assets/db/menu.php?action=addMenu", menuObj);
+  }
+  toggleMenu(mid, action, userid) {
+    
+    let toggleObj = {
+      'mid': mid,
+      'action': action,
+      'userid': userid
+    }
+    return this._http.post(this.server + "assets/db/menu.php?action=toggleMenu", toggleObj);
+  }
+   
 }
+

@@ -2,27 +2,33 @@
   <app-nav></app-nav>
   <div class="container maincontainer">
       <h4 class="text-primary pagetitle">Rates</h4>
-      <hr>
-      <div class="col-md-6">
-       <label>Hotel Name</label>
-          <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname"/>
-          <datalist id="hotelname">
-            <option value="Abc">Abc</option>
-            <option value="Xyz">Xyz</option>
-          </datalist>
-          <br>
-          <label>Menu Name</label>
-          <input type="text" class="form-control" placeholder="Menu Name" list="menus"/>
-          <datalist id="menus">
-            <option value="Breakfast">Breakfast</option>
-            <option value="Starters">Starters</option>
-          </datalist>
-          <br>
-          <label>Rate</label>
-          <input type="text" class="form-control" placeholder="Rate"/>
-          <br>
-          <button class="btn btn-primary">
-            <i class="fa fa-save"></i> Save
-          </button>
+      <div class="alert alert-success" role="alert" *ngIf="successFlag">
+        <strong>{{successFlag}}</strong>
       </div>
+      <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
+        <strong>{{errorFlag}}</strong>
+      </div>
+      <hr>
+      <form #rateForm="ngForm">
+        <div class="col-md-6">
+        <label>Hotel Name</label>
+            <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname"  [(ngModel)]="hname" name="phame" required/>
+            <datalist id="hotelname">
+              <option value="{{hotel.id}}.{{hotel.name}}" *ngFor="let hotel of hotel_list">{{hotel.name}}</option>
+            </datalist>
+            <br>
+            <label>Menu Name</label>
+            <input type="text" class="form-control" placeholder="Menu Name" list="menus"  [(ngModel)]="mname" name="mname" required/>
+            <datalist id="menus">
+              <option value="{{menu.id}}.{{menu.name}}" *ngFor="let menu of menu_list">{{menu.name}}</option>
+            </datalist>
+            <br>
+            <label>Rate</label>
+            <input type="text" class="form-control" placeholder="Rate"  (keypress)="keyPressNum($event)"  [(ngModel)]="rate" name="rate" required/>
+            <br>
+            <button class="btn btn-primary" (click)="addRate();" [disabled]="rateForm.invalid">
+              <i class="fa fa-save"></i> Save
+            </button>
+        </div>
+      </form>
     </div>

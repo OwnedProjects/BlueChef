@@ -1,57 +1,81 @@
 <div class="mainbg">
   <app-nav></app-nav>
   <div class="container maincontainer">
-      <h4 class="text-primary pagetitle">Add Hotel</h4>
-      <hr>
+    <div class="alert alert-success" role="alert" *ngIf="successFlag">
+      <strong>{{successFlag}}</strong>
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
+      <strong>{{errorFlag}}</strong>
+    </div>
+    <h4 class="text-primary pagetitle">Add Hotel</h4>
+    <hr>
+    <form #hotelForm="ngForm">
       <div class="col-md-6">
         <label>Hotel Name</label>
-        <input type="text" class="form-control" placeholder="Hotel Name">
+        <input type="text" class="form-control" placeholder="Hotel Name" [(ngModel)]="hname" name="hname" required>
         <br>
         <label>Address</label>
-        <textarea placeholder="Address" class="form-control"></textarea>
+        <textarea placeholder="Address" class="form-control" [(ngModel)]="hadd" name="hadd" required></textarea>
         <br>
       </div>
       <div class="col-md-6">
-          <label>Contact Person</label>
-          <input type="text" class="form-control" list="contactperson" placeholder="Contact Person">
-          <datalist id="contactperson">
-          <option value="Abc">Abc</option>
-          <option value="Xyz">Xyz</option>
+        <label>Contact Person</label>
+        <input type="text" class="form-control" list="contactperson" placeholder="Contact Person" [(ngModel)]="hcont" name="hcont" required>
+        <datalist id="contactperson">
+          <option value="{{user.id}}.{{user.fname}}.{{user.lname}}" *ngFor="let user of user_list">{{user.fname}}.{{user.lname}}</option>
         </datalist>
         <br>
         <label>Contact Number</label>
-        <input type="text" class="form-control" placeholder="Contact Number">
+        <input type="text" class="form-control" (keypress)="keyPressNum($event)" placeholder="Contact Number" [(ngModel)]="hno" name="hno"
+          minlength=10 maxlength=10 required>
         <br>
       </div>
+
       <div class="col-md-12">
-        <button  class="btn btn-primary"><i class="fa fa-save"></i> Add New</button>
+        <button class="btn btn-primary" (click)="addHotel();" [disabled]="hotelForm.invalid">
+          <i class="fa fa-save"></i> Add Hotel
+        </button>
       </div>
-      <div class="col-md-12">
-        <br/>
-        <h3 class="text-primary pagetitle"> All Hotels</h3>
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-          <div class="input-group searchBoxGroup floatRight">
-            <span class="input-group-addon btn-info" id="basic-addon1">
-                <i class="fa fa-search"></i>
-            </span>
-            <input class="form-control" placeholder="Search Menu" aria-describedby="basic-addon1">
-          </div>
+    </form>
+    
+    <div class="col-md-12">
+      <br/>
+      <h3 class="text-primary pagetitle"> All Hotels</h3>
+      <div class="col-md-4"></div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="input-group searchBoxGroup floatRight">
+          <span class="input-group-addon btn-info" id="basic-addon1">
+            <i class="fa fa-search"></i>
+          </span>
+          <input class="form-control" placeholder="Search Menu" [(ngModel)]="searchInput" aria-describedby="basic-addon1">
         </div>
-        <div class="col-md-12 row">
-          <br>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Hotel Name</th>
-                <th>Contact</th>
-                <th>Address</th>
-                <th>Activate/De-Activate</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
+      </div>
+      <div class="col-md-12 row">
+        <br>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Hotel Name</th>
+              <th>Contact</th>
+              <th>Address</th>
+              <th>Activate/De-Activate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let hotel of hotel_list | searchByName: searchInput; let i = index">
+              <td width="40px">{{i+1}}</td>
+              <td>{{hotel.name}}</td>
+              <td>{{hotel.contact_person}}/{{hotel.contact_number}}</td>
+              <td>{{hotel.address}}</td>
+              <td width="90px">
+                <button class="btn btn-xs btn-success ml10" (click)="toggleHotel(hotel.id,'activate')" *ngIf="hotel.deleted_by"  >Activate</button>
+                <button class="btn btn-xs btn-danger ml10" (click)="toggleHotel(hotel.id,'deactivate')"  *ngIf="!hotel.deleted_by"  >Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>

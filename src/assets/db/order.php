@@ -1,6 +1,5 @@
 <?php
-header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
-
+header('Access-Control-Allow-Origin: *');
 //order.php?action=placeOrder
 
     include 'conn.php';
@@ -8,8 +7,6 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 	$action = $_GET['action'];
 	
 	if($action == "placeOrder"){
-		//print_r($_SERVER);
-		//exit;
 		$data = json_decode(file_get_contents("php://input"));
 		
 		$orderDate = $data->orderDate;
@@ -21,14 +18,10 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
         $orderTakenBy = $data->orderTakenBy;
         $orderMenu = $data->orderMenu;
         
-		//$rows= array();
-		//echo("query insert");
-		if($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$sql = "INSERT INTO `order_register`(`order_date`, `delivery_date`, `order_by`, `contact_number`, `order_status`, `remarks`, `delivery_status`, `hotel_id`) VALUES ('$orderDate', '$dtpDelDate','$orderTakenBy','$contactNo','open','$remarks','open','$hotelId')";
-			$result = $conn->query($sql);
-			//print_r($conn);
-			$orderID = $conn->insert_id;
-		}
+		$rows= array();
+		$sql = "INSERT INTO `order_register`(`order_date`, `delivery_date`, `order_by`, `contact_number`, `order_status`, `remarks`, `delivery_status`, `hotel_id`) VALUES ('$orderDate', '$dtpDelDate','$orderTakenBy','$contactNo','open','$remarks','open','$hotelId')";
+		$result = $conn->query($sql);
+		$orderID = $conn->insert_id;
 		
 		//$sql1 = "SELECT MAX(`id`) FROM `order_register` WHERE `hotel_id`=$hotelId";
 		//$result1 = $conn->query($sql1);
@@ -45,13 +38,7 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 			$qty= $orderMenu[$i]->qty;
 			$menuid= $orderMenu[$i]->menuid;
 			$sqlins = "INSERT INTO `order_details_register`(`quantity`, `order_id`, `menu_id`) VALUES ('".$qty."',".$orderID.",".$menuid.")";
-			//echo "<br>AFTER 2nd INSERT ===>";
-			//print_r($conn);
-			$result1 = $conn->query($sqlins);
-			//echo "<br>AFTER 2nd CONN ===>";
-			//print_r($conn);
-			//exit;
-			//mysqli_query($conn, $sqlins);
+			mysqli_query($conn, $sqlins);
 		}
 
 		if($result){
@@ -63,6 +50,7 @@ header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 			$data1["status"] = 204;
 			header(' ', true, 204);
 		}
+
 		echo json_encode($data1);
 	}
 

@@ -1,0 +1,66 @@
+.fonts{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+}
+.margin{
+    margin-bottom: 10px;
+}
+.form-control.menutextbox{
+    padding: 5px 10px;
+    height: auto;
+}
+
+textarea{
+    resize: none;
+}
+
+.addMenuhr{
+    margin-bottom: 0px;
+}
+
+.menuTable{
+    margin-top: 10px;
+}
+
+.menuTable tr:first-child span{
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.menuTable tr:first-child th input, .menuTable tr:first-child th button{
+    margin-bottom: 15px;
+}
+
+.btn-addmenu{
+    margin-top: 27px;
+    margin-right: 10px;
+}
+
+button i.fa-pencil,button i.fa-trash{
+    padding: 0px;
+}
+
+.orderform{
+    border-right:1px solid rgba(0,0,0,0.2);
+}
+
+.order-sidepanel hr{
+    margin-bottom: 10px;
+}
+.order-sidepanel table{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000000;
+    font-size: 0.8em;
+}
+.order-sidepanel .table > tbody > tr > td{
+    margin-bottom: 10px;
+    padding: 3px;
+}
+
+.btn-sm, .btn-group-sm > .btn{
+    padding: 5px 10px
+}
+
+.alert{
+    padding:5px 15px;
+}

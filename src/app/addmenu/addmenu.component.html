@@ -3,27 +3,34 @@
   <div class="container maincontainer">
       <h4 class="text-primary pagetitle">Add Menu</h4>
       <hr>
-      <div class="col-md-6">
-        <label>Menu Name</label>
-        <input type="text" class="form-control" placeholder="Menu Name">
-        <br>
+      <div class="alert alert-success" role="alert" *ngIf="successFlag">
+        <strong>{{successFlag}}</strong>
       </div>
-      <div class="col-md-6">
-        <label>Menu Type</label>
-          <input type="text" class="form-control" list="menutype" placeholder="Menu Type">
+      <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
+        <strong>{{errorFlag}}</strong>
+      </div>
+
+      <form #menuForm="ngForm">
+        <div class="col-md-6">
+          <label>Menu Name</label>
+          <input type="text" class="form-control" placeholder="Menu Name"  [(ngModel)]="mname" name="mname" required>
           <br>
-          <datalist id="menutype">
-          <option value="Breakfast"></option>
-          <option value="Starters"></option>
-          <option value="Main Course"></option>
-          <option value="Dessert"></option>
-          </datalist>
-      </div>
-      <div class="col-md-6">
-        <button class="btn btn-primary">
-          <i class="fa fa-save"></i>  Add
-        </button>
-      </div>
+        </div>
+        <div class="col-md-6">
+          <label>Menu Type</label>
+            <input type="text" class="form-control" list="menutype" placeholder="Menu Type"  [(ngModel)]="mtype" name="mtype" required>
+            <br>
+            <datalist id="menutype">
+              <option value="{{mtype.id}}.{{mtype.name}}" *ngFor="let mtype of mtype_list">{{mtype.name}}</option>
+            </datalist>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-primary" (click)="addMenu();" [disabled]="menuForm.invalid">
+            <i class="fa fa-save"></i>  Add
+          </button>
+        </div>
+      </form>
+
       <div class="col-md-12">
         <br>
         <h3 class="text-primary pagetitle">All Menu</h3>
@@ -34,7 +41,7 @@
             <span class="input-group-addon btn-info" id="basic-addon1">
                 <i class="fa fa-search"></i>
             </span>
-            <input class="form-control" placeholder="Search Menu" aria-describedby="basic-addon1">
+            <input class="form-control" placeholder="Search Menu" [(ngModel)]="searchInput" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col-md-12 row">
@@ -45,13 +52,18 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Activate/De-Activate</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>adasf</td>
-                <td>adasd</td>
+              <tr *ngFor="let menu of menu_list | searchByName: searchInput; let i = index">
+                <td width="20px">{{i+1}}</td>
+                <td>{{menu.name}}</td>
+                <td>{{menu.mtype}}</td>
+                <td width="70px">
+                  <button class="btn btn-xs btn-success ml10" (click)="toggleMenu(menu.id,'activate')" *ngIf="menu.deleted_by"  >Activate</button>
+                  <button class="btn btn-xs btn-danger ml10" (click)="toggleMenu(menu.id,'deactivate')"  *ngIf="!menu.deleted_by"  >Deactivate</button>
+                </td>
               </tr>
             </tbody>
           </table>
