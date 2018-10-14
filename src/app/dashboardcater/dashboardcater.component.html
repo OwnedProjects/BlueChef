@@ -4,7 +4,7 @@
       <h4 class="text-primary pagetitle">My Dashboard</h4>
       <hr>
 
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="receivedOrders">
         <!-- Received Orders panel -->
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -32,30 +32,6 @@
                   <td>{{order.delivery_date | date: 'dd-MM-yyyy'}}</td>
                   <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
                 </tr>
-                <!-- <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr> -->
                 <tr>
                   <td colspan="4">
                     <button class="btn-link floatRight"><i class="fa fa-search-plus"></i> View All</button>
@@ -68,7 +44,7 @@
       </div>
 
       <!-- Pending Deliveries -->
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="pendingDelivery">
         <div class="panel panel-info">
           <div class="panel-heading">
             <h3 class="panel-title">Pending Deliveries</h3>
@@ -126,7 +102,7 @@
       </div>
       
       <!-- Out For Delivery -->
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="deliveryOut">
         <div class="panel panel-purple">
           <div class="panel-heading">
             <h3 class="panel-title">Out for Delivery</h3>
@@ -184,7 +160,7 @@
       </div>
 
       <!-- Our Menus -->
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="allMenus">
         <div class="panel panel-danger">
           <div class="panel-heading floatLeft">
               <h3 class="panel-title floatLeft">Our Menus</h3>
@@ -206,35 +182,10 @@
                     </tr>
                   </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
+                  <tr *ngFor="let menu of allMenus | slice:0:5; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{menu.name}}</td>
                     <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Menu</button></td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Menu</button></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Menu</button></td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Larry</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Menu</button></td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>Larry</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Menu</button></td>
-                  </tr>
-                  <tr>
-                    <td colspan="3">
-                      <button class="btn btn-sm btn-primary floatRight"><i class="fa fa-plus"></i> Add Menu</button>
-                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -243,7 +194,7 @@
       </div>
       
       <!-- Top Hotels -->
-      <div class="col-sm-6">
+      <div class="col-sm-6" *ngIf="topHotels">
         <div class="panel panel-warning">
           <div class="panel-heading floatLeft">
               <h3 class="panel-title floatLeft">Top Hotels</h3>
@@ -314,7 +265,7 @@
       </div>
 
       <!-- Top Suppliers -->
-      <div class="col-md-6">
+      <div class="col-md-6" *ngIf="topSuppliers">
         <div class="panel panel-default">
             <div class="panel-heading floatLeft">
                 <h3 class="panel-title floatLeft">Top Suppliers</h3>
