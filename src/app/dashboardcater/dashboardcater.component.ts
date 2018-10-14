@@ -14,7 +14,9 @@ export class DashboardcaterComponent implements OnInit {
   ngOnInit() {
     this._order.getAllOpenOrders().subscribe(response => {
       console.log("getAllOpenOrders: ", response);
-      this.receivedOrders = response["data"];
+      if(response){
+        this.receivedOrders = response["data"];
+      }
     },
     err =>{
       console.log(err);

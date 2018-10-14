@@ -56,7 +56,7 @@ export class InverntoryinComponent implements OnInit {
     let flag: Boolean = false;
     if (this.pname) {
       for (let i in this.product_list) {
-        if (this.pname.split(".")[1] == this.product_list[i].pname) {
+        if (this.pname.split(".")[1] == this.product_list[i].name) {
           flag = true;
           break;
         }
@@ -248,7 +248,7 @@ export class InverntoryinComponent implements OnInit {
     let suppid = this.sname.split('.')[0];
     let newInventory = {
       suppid: suppid,
-      date: this.dtpDelDate,
+      date: deldt.getTime(),
       billno: this.billno,
       product_list: this.supplier_products,
       total: this.totalAmount,

@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalService {
-  serverpath = "http://localhost/BlueChef/src/";
+  serverpath = "http://localhost/Projects/Assasa_Projects/BlueChef/src/";
   constructor() { }
 }
