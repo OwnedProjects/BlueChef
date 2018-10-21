@@ -15,4 +15,8 @@ export class LoginService {
     //console.log("validateLogin", unm, pwd);
     return this._http.get(this.server+"assets/db/login.php?action=checkLogin&usernm="+unm+"&passwd="+pwd);
   }
+
+  checkLicense(){
+    return this._http.get(this.server+"assets/db/licConn.php");
+  }
 }

@@ -30,4 +30,8 @@ export class UserService {
   getRoles() {
     return this._http.get(this.server + 'assets/db/user.php?action=getRoles');
   }
+
+  getUserRole(usrId){
+    return this._http.get(this.server + 'assets/db/user.php?action=getUserRole&usrId='+usrId);
+  }
 }

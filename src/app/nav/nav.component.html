@@ -12,12 +12,12 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse" *ngIf="showmenu">
         <ul class="nav navbar-nav">
-          <li><a routerLink="/caterdb">Cater Home</a></li>
-          <li><a routerLink="/neworder">New Order</a></li>
-          <li><a routerLink="/billing">Billing</a></li>
-          <li><a routerLink="/invin">Inventory In</a></li>
-          <li><a routerLink="/invout">Inventory Out</a></li>
-          <li class="dropdown">
+          <li><a routerLink="/caterdb" *ngIf="role == 1 || role == 2">Cater Home</a></li>
+          <li><a routerLink="/neworder" *ngIf="role != 1 || role != 2">New Order</a></li>
+          <li><a routerLink="/billing" *ngIf="role == 1 || role == 2">Billing</a></li>
+          <li><a routerLink="/invin" *ngIf="role == 1 || role == 2">Inventory In</a></li>
+          <li><a routerLink="/invout" *ngIf="role == 1 || role == 2">Inventory Out</a></li>
+          <li class="dropdown" *ngIf="role == 1 || role == 2">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Add New <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a routerLink="/adduser">User</a></li>

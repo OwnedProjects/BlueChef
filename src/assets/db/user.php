@@ -36,8 +36,7 @@
 		echo json_encode($data1);
 	}
 	//get role
-		if($action == "getRoles"){
-		
+	if($action == "getRoles"){	
 		$sql = "select * from user_role_register where id != '1'";
 		$result = $conn->query($sql);
 		while($row = $result->fetch_array())
@@ -54,6 +53,37 @@
 			{
 				$tmp[$i]['id'] = $row['id'];
 				$tmp[$i]['type'] = $row['type'];
+				$i++;
+			}
+			$data["status"] = 200;
+			$data["data"] = $tmp;
+			header(' ', true, 200);
+		}
+		else{
+			$data["status"] = 204;
+			header(' ', true, 204);
+		}
+
+		echo json_encode($data);
+	}
+
+	if($action == "getUserRole"){	
+		$userid = $_GET["usrId"];
+		$sql = "SELECT `role_id` FROM `user_register` WHERE `id`=$userid";
+		$result = $conn->query($sql);
+		while($row = $result->fetch_array())
+		{
+			$rows[] = $row;
+		}
+
+		$tmp = array();
+		$data = array();
+		$i = 0;
+
+		if(count($rows)>0){
+			foreach($rows as $row)
+			{
+				$tmp[$i]['role_id'] = $row['role_id'];
 				$i++;
 			}
 			$data["status"] = 200;

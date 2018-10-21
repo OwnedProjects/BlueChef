@@ -30,20 +30,32 @@ export class HomeComponent implements OnInit {
       this._loginService.validateLogin(this.usernm, this.passwd)
         .subscribe(response => {
           //console.log("Response", response);
-          sessionStorage.setItem("userdata", JSON.stringify(response["data"]));
-          if(response["status"]==200){
-            //console.log(response["data"][0].id);
-            this._hotel.getUserHotel(response["data"][0].id).subscribe(res =>{
-              console.log("Init Hotel: ",res);
-              if(res){
-                sessionStorage.setItem("hotel_id", res["data"][0].id)
+
+          this._loginService.checkLicense().subscribe(respLic => {
+            console.log("checkLicense", respLic);
+            if(respLic["expired"] == false){
+              sessionStorage.setItem("userdata", JSON.stringify(response["data"]));
+              if(response["status"]==200){
+                //console.log(response["data"][0].id);
+                this._hotel.getUserHotel(response["data"][0].id).subscribe(res =>{
+                  console.log("Init Hotel: ",res);
+                  if(res){
+                    sessionStorage.setItem("hotel_id", res["data"][0].id)
+                  }
+                });
+                this.router.navigate(["/caterdb"]);
               }
-            });
-            this.router.navigate(["/caterdb"]);
-          }
-          else{
-            this.errorMessage = "*Invalid credentials, try again."
-          }
+              else{
+                this.errorMessage = "*Invalid credentials, try again."
+              }
+            }
+            else{
+              alert("Your license has been expired, Kindly contact 9011118448");
+            }
+          },errLic => {
+            console.log("Lic Error", errLic);
+            alert("Cannot login now, please try again later");
+          });
         },
         error => {
           console.log(error);
