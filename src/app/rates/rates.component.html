@@ -10,9 +10,10 @@
     </div>
     <hr>
     <div class="row">
+    <form #rateForm="ngForm">
       <div class="col-md-6">
         <label>Hotel Name</label>
-        <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname" [(ngModel)]="hname" name="hhame" [disabled]="isdisable" />
+        <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname" [(ngModel)]="hname" name="hhame" [disabled]="isdisable" required />
         <datalist id="hotelname">
           <option value="{{hotel.id}}.{{hotel.name}}" *ngFor="let hotel of hotel_list">{{hotel.name}}</option>
         </datalist>
@@ -20,7 +21,7 @@
       </div>
       <div class="col-md-6">
         <label>Menu Name</label>
-        <input type="text" class="form-control" placeholder="Menu Name" list="menus" [(ngModel)]="mname" name="mname" [disabled]="isdisable" />
+        <input type="text" class="form-control" placeholder="Menu Name" list="menus" [(ngModel)]="mname" name="mname" [disabled]="isdisable" required/>
         <datalist id="menus">
           <option value="{{menu.id}}.{{menu.name}}" *ngFor="let menu of menu_list">{{menu.name}}</option>
         </datalist>
@@ -28,21 +29,24 @@
       </div>
       <div class="col-md-6">
         <label>Rate</label>
-        <input type="text" class="form-control" placeholder="Rate" (keypress)="keyPressNum($event)" [(ngModel)]="rate" name="rate"
+        <input type="text" class="form-control" placeholder="Rate" (keypress)="keyPressNum($event)" [(ngModel)]="rate" name="rate" required
         />
         <br>
-        <button class="btn btn-primary" (click)="addRate();" *ngIf="editrate<0">
+        <button class="btn btn-primary" [disabled]="rateForm.invalid" (click)="addRate();" *ngIf="editrate<0">
           <i class="fa fa-save"></i> Add Rate
         </button>
         <div *ngIf="editrate>0">
-          <button class="btn btn-sm btn-warning " (click)="editRateSave()">
+          <button class="btn btn-sm btn-warning " [disabled]="rateForm.invalid" (click)="editRateSave()">
             <i class="fa fa-pencil"></i>Save</button>
           &nbsp;
           <button class="btn btn-sm btn-default " (click)="cancel_edit_rate()">
             <i class="fa fa-times"></i>Cancel</button>
         </div>
       </div>
+      </form>
     </div><br>
+
+
     <div class="row">
       <div class="col-md-6">
         <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname" [(ngModel)]="rhname" />

@@ -25,7 +25,7 @@ if($action == "getProduct"){
 		{
 			$tmp[$i]['id'] = $row['id'];
 			$tmp[$i]['uid'] = $row['uid'];
-			$tmp[$i]['pname'] = $row['name'];
+			$tmp[$i]['name'] = $row['name'];
 			$tmp[$i]['uname'] = $row['unit_name'];
 			$tmp[$i]['deleted_by'] = $row['deleted_by'];
 			$i++;

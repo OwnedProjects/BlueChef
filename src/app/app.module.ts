@@ -1,7 +1,7 @@
 import { BillService } from './bill.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -33,7 +33,7 @@ import { OrderService } from './order.service';
 import { MenuService } from './menu.service';
 import { HotelService } from './hotel.service';
 import { GlobalService } from './global.service';
-// import { SearchByNamePipe } from './search-by-name.pipe';
+import { SearchByNamePipe } from './search-by-name.pipe';
 import { SearchmenuPipe } from './searchmenu.pipe';
 import { VieworderComponent } from './vieworder/vieworder.component';
 import { ViewallordersComponent } from './viewallorders/viewallorders.component';
@@ -59,12 +59,12 @@ const routes:Routes = RoutesConfig;
     AddsupplierComponent,
     InverntoryinComponent,
     InventoryoutComponent,
-    // SearchByNamePipe,
+    SearchByNamePipe,
     SearchmenuPipe,
     VieworderComponent,
     ViewallordersComponent,
     ViewalloutdelComponent,
-    BillingComponent
+    BillingComponent    
   ],
   imports: [
     BrowserModule,

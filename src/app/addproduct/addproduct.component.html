@@ -9,30 +9,32 @@
     <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
       <strong>{{errorFlag}}</strong>
     </div>
-    <div class="col-md-6">
-      <label>Product Name</label>
-      <input type="text" class="form-control" placeholder="Product Name" [(ngModel)]="pname" name="pname">
-      <br>
-    </div>
-    <div class="col-md-6">
-      <label>Unit Name</label>
-      <input type="text" class="form-control" list="unitnm" placeholder="Unit Name" [(ngModel)]="uname" name="uname">
-      <datalist id="unitnm">
-        <option value="{{unit.id}}.{{unit.uname}}" *ngFor="let unit of unit_list">{{unit.uname}}</option>
-      </datalist>
-      <br>
-    </div>
-    <div class="col-md-12">
-      <button class="btn btn-primary" (click)="addProduct();" *ngIf="editproduct<0">
-        <i class="fa fa-save"></i> Add</button>
-      <div *ngIf="editproduct>0">
-        <button class="btn btn-sm btn-warning " (click)="editProdSave()">
-          <i class="fa fa-pencil"></i>Save</button>
-        &nbsp;
-        <button class="btn btn-sm btn-default " (click)="cancel_edit_Product()">
-          <i class="fa fa-times"></i>Cancel</button>
+
+
+      <div class="col-md-6">
+        <label>Product Name</label>
+        <input type="text" class="form-control" placeholder="Product Name" [(ngModel)]="pname" name="pname">
+        <br>
       </div>
-    </div>
+      <div class="col-md-6">
+        <label>Unit Name</label>
+        <input type="text" class="form-control" list="unitnm" placeholder="Unit Name" [(ngModel)]="uname" name="uname">
+        <datalist id="unitnm">
+          <option value="{{unit.id}}.{{unit.uname}}" *ngFor="let unit of unit_list">{{unit.uname}}</option>
+        </datalist>
+        <br>
+      </div>
+      <div class="col-md-12">
+        <button class="btn btn-primary" (click)="addProduct();" *ngIf="editproduct<0" [disabled]="!pname || !uname">
+          <i class="fa fa-save"></i> Add</button>
+        <div *ngIf="editproduct>0">
+          <button class="btn btn-sm btn-warning " (click)="editProdSave()" [disabled]="!pname || !uname">
+            <i class="fa fa-pencil"></i>Save</button>
+          &nbsp;
+          <button class="btn btn-sm btn-default " (click)="cancel_edit_Product()">
+            <i class="fa fa-times"></i>Cancel</button>
+        </div>
+      </div>
 
     <div class="col-md-12">
       <br/>
@@ -44,7 +46,7 @@
           <span class="input-group-addon btn-info" id="basic-addon1">
             <i class="fa fa-search"></i>
           </span>
-          <input class="form-control" placeholder="Search Product" aria-describedby="basic-addon1">
+          <input class="form-control" placeholder="Search Product" [(ngModel)]="searchProduct" aria-describedby="basic-addon1">
         </div>
       </div>
       <table class="table table-striped">
@@ -57,9 +59,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of product_list; let i = index">
+          <tr *ngFor="let product of product_list | searchByName: searchProduct; let i = index">
             <td width="40px">{{i+1}}</td>
-            <td>{{product.pname}}</td>
+            <td>{{product.name}}</td>
             <td>{{product.uname}}</td>
             <td>
               <button class="btn btn-xs btn-warning ml10" (click)="edit_Product(i,product.id,product.uid)" title="Edit Prodcut"><i class="fa fa-pencil"></i></button>
