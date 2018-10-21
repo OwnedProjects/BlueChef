@@ -9,6 +9,8 @@ export class HotelService {
   server: any;
   hcont: any;
   hcontid: any;
+  uid:any;
+  deldt = new Date();
   constructor(private _http: HttpClient, private _global: GlobalService) {
     this.server = _global.serverpath;
   }
@@ -30,6 +32,7 @@ export class HotelService {
       'hcontid': this.hcontid,
       'hcont': this.hcont,
       'hno': hno,
+      'date':this.deldt.getTime(),
       'userid': userid
     }
     return this._http.post(this.server + "assets/db/hotel.php?action=addHotel", hotelObj);
@@ -39,8 +42,25 @@ export class HotelService {
     let toggleObj = {
       'hid': hid,
       'action': action,
+      'date':this.deldt.getTime(),
       'userid': userid
     }
     return this._http.post(this.server + "assets/db/hotel.php?action=toggleHotel", toggleObj);
+  }
+
+  edithotel(hid,hname, hadd,hno,hcont,userid) {
+    this.hcontid = hcont.split('.')[0];
+    this.hcont = hcont.split('.')[1];
+    let editObj = {
+      'hid':hid,
+      'hname': hname,
+      'hadd':hadd,
+      'hcontid': this.hcontid,
+      'hcont': this.hcont,
+      'hno': hno,
+      'date':this.deldt.getTime(),
+      'userid': userid
+    }
+    return this._http.post(this.server + "assets/db/hotel.php?action=editHotel", editObj);
   }
 }

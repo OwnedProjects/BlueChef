@@ -11,8 +11,8 @@ export class AddsupplierComponent implements OnInit {
   supplier_list: any;
   userdata: any;
   pname: String = null;
-  pid: String = null;
-
+  sid: String = null;
+  editSupplier: number = -1;
   sname: String = null;
   sadd: String = null;
   scontp: String = null;
@@ -20,8 +20,6 @@ export class AddsupplierComponent implements OnInit {
 
   successFlag: String = null;
   errorFlag: String = null;
-  search: string;
-
   constructor(private _supplierService: SupplierService, private router: Router) { }
 
   ngOnInit() {
@@ -30,46 +28,40 @@ export class AddsupplierComponent implements OnInit {
     } else {
       this.router.navigate(["/home"]);
     }
-    
-    this.getSupplier();
-    // remove this code 
-    // this._productService.getProduct().subscribe(response => {
-    //   this.product_list = response["data"];
-    // },
-    //   err => {
-    //     console.log("Error:", err);
-    //   });
-    // remove code
-  }
+   this.getSupplier();
 
+   
+  }
   getSupplier() {
     this._supplierService.getSuppliers().subscribe(response => {
-      this.supplier_list = response['data'];
-    }, err => {
+      this.supplier_list = response["data"];
+    },
+      err => {
         console.log("Error:", err);
-    });
+      });
   }
-
 
   addSupplier() {
     this._supplierService.addSupplier(this.sname, this.sadd, this.scontp, this.scontno, this.userdata[0].id)
       .subscribe(response => {
-        if (response['status'] === 200) {
-         this.getSupplier();
-
-          this.successFlag = `Supplier added successfully`;
+        if (response["status"] == 200) {
+          this.getSupplier();
+          this.successFlag = "Supplier added successfully";
           setTimeout(() => {
             this.successFlag = null;
           }, 3000);
-        } else {
-          this.errorFlag = `Supplier cannot be added now, Kindly try after some time`;
+        }
+        else {
+          this.errorFlag = "Supplier cannot be added now, Kindly try after some time";
           setTimeout(() => {
             this.errorFlag = null;
           }, 3000);
         }
-      },  error => {
-        console.log(error);
-      });
+      },
+        error => {
+          console.log(error);
+
+        })
     //reset fields
     this.sname = this.sadd = this.scontp = this.scontno = null;
 
@@ -78,45 +70,75 @@ export class AddsupplierComponent implements OnInit {
   toggleSupplier(id, action) {
     this._supplierService.toggleSuppliers(id, action, this.userdata[0].id)
       .subscribe(response => {
-        if (response["status"] === 200) {
+        if (response["status"] == 200) {
           this.getSupplier();
-
-        } else {
+        }
+        else {
           alert("Can not deactivate hotel.Please try again later")
         }
-      }, error => {
-        console.log(error);
-      });
-  }
+      },
+        error => {
+          console.log(error);
 
+        })
+
+
+  }
   keyPressNum(event: any) {
     const pattern = /[0-9\+\-\ ]/;
+
     let inputChar = String.fromCharCode(event.charCode);
     if (event.keyCode != 8 && !pattern.test(inputChar)) {
       event.preventDefault();
     }
   }
+  edit_Supplier(index, sid) {
+    this.sid = sid;
+    
+    this.editSupplier = index + 1;
+    this.sname = this.supplier_list[index].name;
+    this.sadd = this.supplier_list[index].address;
+    this.scontp = this.supplier_list[index].contact_person;
+    this.scontno = this.supplier_list[index].cont_no;
+    
+    window.scroll(0, 0);
+  }
 
+  cancelEditSupplier() {
+    this.sname = null;
+    this.sadd = null;
+    this.scontp = null;
+    this.scontno = null;
+    this.editSupplier = -1;
+  }
 
-  // remove this code 
-  // addProduct() {
-  //   if (this.pname != null) {
-  //     this.pid = this.pname.split('.')[0];
-  //     this.pname = this.pname.split('.')[1];
-  //     let productObj = {
-  //       'pname': this.pname,
-  //       'pid': this.pid,
-  //     }
-  //     this.supplier_product_list.push(productObj);
-  //     this.pname = null;
-  //   } else {
-  //     alert("Please Select Product to add");
-  //   }
-  // }
+  saveEditSupplier() {
+    this._supplierService.editSupplier( this.sid,this.sname, this.sadd, this.scontp, this.scontno, this.userdata[0].id)
+      .subscribe(response => {
+     
+        this.editSupplier = -1;
+        if (response["status"] == 200) {
+          this.getSupplier();
+          this.successFlag = "Supplier edited successfully";
+          setTimeout(() => {
+            this.successFlag = null;
+          }, 3000);
 
-  // removeProduct(index) {
-  //   this.supplier_product_list.splice(index, 1);
-  // }
-  // remove code
+        }
+        else {
+          this.errorFlag = "Supplier cannot be edited now, Kindly try after some time";
+          setTimeout(() => {
+            this.errorFlag = null;
+          }, 3000);
+        }
+      },
+        error => {
+          //console.log(error);
 
+        })
+    //reset fields
+      this.sname = this.sadd = this.scontp = this.scontno = null;
+
+  }
+  
 }

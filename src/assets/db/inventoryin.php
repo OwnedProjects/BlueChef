@@ -19,10 +19,10 @@ if($action == "addInventory"){
 
 	$rows= array();
 		 //changed the date to null in db was giving error 
-		$sql = "INSERT INTO supplier_bill_register(bill_number, bill_amount, bill_date, bill_status, supplier_id) VALUES ('$billno', '$total',
-		'$date','Pending','$suppid')";
-		// $sql = "INSERT INTO supplier_bill_register(bill_number,bill_amount,bill_status,supplier_id) VALUES ('$billno', '$total',
-		// 'Pending','$suppid')";
+		/* $sql = "INSERT INTO supplier_bill_register(bill_number, bill_amount, bill_date,bill_status', 'supplier_id') VALUES ('$billno', '$total',
+		'$date','Pending','$suppid')";*/
+		$sql = "INSERT INTO supplier_bill_register(bill_number,bill_amount,bill_status,supplier_id) VALUES ('$billno', '$total',
+		'Pending','$suppid')";
 		$result = $conn->query($sql);
 		$billId = $conn->insert_id; 
 
@@ -32,13 +32,27 @@ if($action == "addInventory"){
 			$prodid= $product_list[$i]->prodid;
 			$rate= $product_list[$i]->rate;
 			$prodid= $product_list[$i]->prodid;
-
+		 
 			$sql = "INSERT INTO inventory_register(quantity,rate,material_in_or_out,date,product_id,supplier_id,supplier_bill_id,user_id)
-					    VALUES ('$qty','$rate','In','$date','$prodid','$suppid','$billId','$userid')";
-			// $sql = "INSERT INTO inventory_register(quantity,rate,material_in_or_out,date,product_id,supplier_id,supplier_bill_id,user_id)
-			// VALUES ('$qty','$rate','In',CURDATE(),'$prodid','$suppid','$billId','$userid')";
-			$result = $conn->query($sql);
-			 
+			VALUES ('$qty','$rate','In','$date','$prodid','$suppid','$billId','$userid')";
+			$result1 = $conn->query($sql);
+
+			if ($result1){
+				$sql = "SELECT * FROM stock_register WHERE product_id='$prodid'";
+				$result = $conn->query($sql);
+				while($row = $result->fetch_array())
+				{
+					$sqty= $row['quantity'];
+
+					$newqty= $sqty + $qty;
+					
+					$sql = "UPDATE stock_register SET  quantity='$newqty' WHERE product_id ='$prodid'";	
+					$result2=$conn->query($sql);
+				 
+					
+				}
+
+			}
 		}
 
 		if($result){

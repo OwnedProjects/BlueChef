@@ -10,49 +10,46 @@
       <strong>{{errorFlag}}</strong> 
     </div>
   
-    <form #userForm="ngForm">
-      <div class="row">
-        <div class="col-xs-12 col-md-6">
-          <label>First Name</label>
-          <input type="text" class="form-control"  placeholder="First Name" [(ngModel)]="fname" name="fname" required>
-        </div>
-        <div class="col-xs-12 col-md-6">
-          <label> Last Name</label>
-          <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="lname" name="lname" required>
-        </div>
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <label>First Name</label>
+        <input type="text" class="form-control"  placeholder="First Name" [(ngModel)]="fname" name="fname">
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label>User Name</label>
-          <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="uname" name="uname" required>
-        </div>
-        <div class="col-md-6">
-          <label> Password</label>
-          <input type="password" class="form-control"  placeholder="Password" [(ngModel)]="passwd" name="passwd" required>
-        </div>
+      <div class="col-xs-12 col-md-6">
+        <label> Last Name</label>
+        <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="lname" name="lname">
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <label>Role</label>
-          <input type="text" class="form-control" list="user" [(ngModel)]="role" name="roll" required>
-          <datalist id="user">
-            <option value="{{role.id}}.{{role.type}}" *ngFor="let role of role_list">{{role.type}}</option>
-          </datalist>
-        </div>
-        <div class="col-md-6">
-          <label> Contact</label>
-          <input type="text" class="form-control" (keypress)="keyPressNum($event)" placeholder="Contact" [(ngModel)]="cont" name="cont" minlength=10 maxlength=10 required>
-        </div>
-      </div><br>
-      <div class="row">
-        <div class="col-md-12">
-          <button class="btn btn btn-primary" [disabled]="userForm.invalid" (click)="addUser();">
-            <i class="fa fa-save"></i> Add
-          </button>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>User Name</label>
+        <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="uname" name="uname">
       </div>
-    </form>
+      <div class="col-md-6">
+        <label> Password</label>
+        <input type="password" class="form-control"  placeholder="Password" [(ngModel)]="passwd" name="passwd">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Role</label>
+        <input type="text" class="form-control" list="user" [(ngModel)]="role" name="roll">
+        <datalist id="user">
+          <option value="{{role.id}}.{{role.type}}" *ngFor="let role of role_list">{{role.type}}</option>
 
-
+        </datalist>
+      </div>
+      <div class="col-md-6">
+        <label> Contact</label>
+        <input type="text" class="form-control" (keypress)="keyPressNum($event)" placeholder="Contact" [(ngModel)]="cont" name="cont" minlength=10 maxlength=10>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn btn-primary"  (click)="addUser();">
+          <i class="fa fa-save"></i> Add
+        </button>
+      </div>
+    </div>
   </div>
 </div>

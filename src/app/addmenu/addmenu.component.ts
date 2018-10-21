@@ -12,7 +12,9 @@ export class AddMenuComponent implements OnInit {
   type: string;
   index: number;
   allmenus: any[] = new Array();
-
+  mid: String = null;
+  tid: String = null;
+  editmenu: number = -1;
   menu_list: any;
   mtype_list: any;
   userdata: any;
@@ -20,8 +22,6 @@ export class AddMenuComponent implements OnInit {
 
   successFlag: String = null;
   errorFlag: String = null;
-  searchInput: string;
-
   constructor(private _menuService: MenuService, private router: Router) { }
 
 
@@ -31,10 +31,13 @@ export class AddMenuComponent implements OnInit {
     } else {
       this.router.navigate(["/home"]);
     }
-    
-    this.menuType();
-    this.getMenuItems();
-
+    this._menuService.getMtype().subscribe(response => {
+      this.mtype_list = response["data"];
+    },
+      err => {
+        console.log("Error:", err);
+      });
+    this.getMenu();
     //was giving error was. was coded befor-sufiyan
     // this._menuService.getAllMenus().subscribe(response => {
     //   this.menu_list = response["data"];
@@ -42,58 +45,101 @@ export class AddMenuComponent implements OnInit {
     //   err => {
     //     console.log("Error:", err);
     //   });
-  }
 
-  menuType() {
-    this._menuService.getMtype().subscribe(response => {
-      this.mtype_list = response["data"];
-    }, err => {
-      console.log("Error:", err);
-    });
   }
+  getMenu() {
 
-  getMenuItems() {
     this._menuService.getMenuList().subscribe(response => {
       this.menu_list = response["data"];
-    }, err => {
-      console.log("Error:", err);
-    });
+    },
+      err => {
+        console.log("Error:", err);
+      });
   }
-
   addMenu() {
     this._menuService.addMenu(this.mname, this.mtype, this.userdata[0].id)
       .subscribe(response => {
-        // console.log(response);
+     
         if (response["status"] == 200) {
-          this.getMenuItems();
-          this.successFlag = 'Menu added successfully';
+          this.getMenu();
+          this.successFlag = "Menu added successfully";
           setTimeout(() => {
             this.successFlag = null;
-          }, 5000);
-        }  else {
-          this.errorFlag = 'Menu cannot be added now, Kindly try after some time';
+          }, 3000);
+        }
+        else {
+          this.errorFlag = "Menu cannot be added now, Kindly try after some time";
           setTimeout(() => {
             this.errorFlag = null;
-          }, 5000);
+          }, 3000);
         }
-      }, error => {
-        console.log(error);
-      });
-    // reset fields
+      },
+        error => {
+          console.log(error);
+
+        })
+    //reset fields
     this.mname = this.mtype = null;
+
   }
-
-
   toggleMenu(id, action) {
-    this._menuService.toggleMenu(id, action, this.userdata[0].id).subscribe(response => {
-        if (response["status"] === 200) {
-          this.getMenuItems();
-        } else {
+    this._menuService.toggleMenu(id, action, this.userdata[0].id)
+      .subscribe(response => {
+
+        if (response["status"] == 200) {
+          this.getMenu();
+        }
+        else {
           alert("Can not deactivat menu.Please try again later")
         }
-      }, error => {
-        console.log(error);
-      });
+      },
+        error => {
+          console.log(error);
+
+        })
   }
 
+  edit_Menu(index, mid,tid) {
+    this.mid = mid;
+    this.tid = tid;
+    this.editmenu = index + 1;
+    this.mname = this.menu_list[index].name;
+    this.mtype =this.tid+'.'+ this.menu_list[index].mtype;
+    window.scroll(0,0);
+  }
+
+  cancel_edit_Menu() {
+    this.mname = null;
+    this.mtype = null;
+    this.editmenu = -1;
+  }
+
+  editMenuSave() {
+    this._menuService.editProduct(this.mid,this.mname, this.mtype,this.userdata[0].id)
+      .subscribe(response => {
+        console.log(response);
+        this.editmenu =-1;
+        if (response["status"] == 200) {
+          this.getMenu();
+          this.successFlag = "Menu edited successfully";
+          setTimeout(() => {
+            this.successFlag = null;
+          }, 3000);
+
+        }
+        else {
+          this.errorFlag = "Menu cannot be edited now, Kindly try after some time";
+          setTimeout(() => {
+            this.errorFlag = null;
+          }, 3000);
+        }
+      },
+        error => {
+          //console.log(error);
+
+        })
+    //reset fields
+    this.mname = this.mtype = null;
+
+  }
 }

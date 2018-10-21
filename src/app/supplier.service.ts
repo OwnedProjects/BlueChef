@@ -7,6 +7,7 @@ import { GlobalService } from './global.service';
 })
 export class SupplierService {
   server: any;
+  deldt = new Date();
   
   constructor(private _http: HttpClient, private _global: GlobalService) {
     this.server = _global.serverpath;
@@ -19,6 +20,7 @@ export class SupplierService {
       'sadd': sadd,
       'scontp': scontp,
       'scontno': scontno,
+      'date':this.deldt.getTime(),
       'userid': userid,
     }
     return this._http.post(this.server + "assets/db/supplier.php?action=addSupplier", supplierObj);
@@ -32,8 +34,21 @@ export class SupplierService {
     let toggleObj = {
       'sid': sid,
       'action': action,
-      'userid': userid
+      'userid': userid,
+      'date':this.deldt.getTime(),
     }
     return this._http.post(this.server + "assets/db/supplier.php?action=toggleSupplier", toggleObj);
+  }
+  editSupplier(sid,sname, sadd,scontp,scontno, userid ) {
+    let editObj = {
+      'sid': sid,
+      'sname': sname,
+      'sadd': sadd,
+      'scontp': scontp,
+      'scontno': scontno,
+      'date':this.deldt.getTime(),
+      'userid': userid
+    }
+    return this._http.post(this.server + "assets/db/supplier.php?action=editSupplier", editObj);
   }
 }

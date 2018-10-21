@@ -56,7 +56,7 @@ export class InverntoryinComponent implements OnInit {
     let flag: Boolean = false;
     if (this.pname) {
       for (let i in this.product_list) {
-        if (this.pname.split(".")[1] == this.product_list[i].name) {
+        if (this.pname.split(".")[1] == this.product_list[i].pname) {
           flag = true;
           break;
         }
@@ -257,9 +257,7 @@ export class InverntoryinComponent implements OnInit {
 
     this._inventoryinService.addInventory(newInventory)
       .subscribe(response => {
-        console.log(response);
         if (response["status"] == 200) {
-
           this.successFlag = "Inventory added successfully";
           setTimeout(() => {
             this.successFlag = null;

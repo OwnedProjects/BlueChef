@@ -27,7 +27,6 @@ if($action == "supplierList"){
 			$tmp[$i]['cont_no'] = $row['contact_number'];
 			$tmp[$i]['address'] = $row['contact_address'];
 			$tmp[$i]['contact_person'] = $row['contact_person'];
-			$tmp[$i]['contact_number'] = $row['contact_number'];
 			$tmp[$i]['deleted_by'] = $row['deleted_by'];
 			$i++;
 		}
@@ -55,9 +54,10 @@ if($action=='addSupplier'){
 		$scontp = $data->scontp;
 		$scontno = $data->scontno;
 		$userid = $data->userid;
+		$date = $data->date;
 
 
-		$addSupplier="INSERT INTO supplier_register(name,contact_address,contact_person,contact_number,created_by,modified_by)VALUES('$sname','$sadd','$scontp','$scontno','$userid','$userid')";
+		$addSupplier="INSERT INTO supplier_register(name,contact_address,contact_person,contact_number,created_by,created_on,modified_by,modified_on)VALUES('$sname','$sadd','$scontp','$scontno','$userid','$date','$userid','$date')";
 
 		$result=$conn->query($addSupplier);
 
@@ -82,18 +82,20 @@ if($action=='toggleSupplier'){
 		$sid = $data->sid;
 		$action = $data->action;
 		$userid = $data->userid;
+		$date = $data->date;
 		
 
 		 if($action === 'activate'){
 		 
-		 	$toggleHotel="Update supplier_register set modified_by='$userid' , modified_on=CURDATE(), deleted_by=null,deleted_on=null where id= $sid";
+		 	$toggleHotel="Update supplier_register set modified_by='$userid' , modified_on='$date', deleted_by=null,deleted_on=null where id= '$sid'";
 		}
 		 if($action === 'deactivate'){
 		 
-			$toggleHotel="Update supplier_register set modified_by='$userid' , modified_on=CURDATE(),  deleted_by='$userid' ,deleted_on= CURDATE() where  id= $sid";
+			$toggleHotel="Update supplier_register set modified_by='$userid' , modified_on='$date' , deleted_by='$userid' ,deleted_on='$date' where  id= '$sid'";
 			 
 		}	
 
+	 
 		 $result=$conn->query($toggleHotel);
 		 
 	}
@@ -107,6 +109,42 @@ if($action=='toggleSupplier'){
 	}
 	echo json_encode($data1);
 }
+
+if($action=='editSupplier'){
+
+	if($_SERVER['REQUEST_METHOD']=='POST'){
+
+		$data = json_decode(file_get_contents("php://input"));
+		$data1=array();
+
+		$sid = $data->sid;
+		$sname = $data->sname;
+		$sadd = $data->sadd;
+		$scontp = $data->scontp;
+		$scontno = $data->scontno;
+		$date = $data->date;
+		$userid = $data->userid;
+
+
+
+		$editSupplier="Update supplier_register set name='$sname',contact_address='$sadd', contact_person='$scontp',contact_number='$scontno',
+		modified_by='$userid',modified_on='$date' where id= $sid";
+
+
+		$result=$conn->query($editSupplier);
+	}
+
+	if($result){
+		$data1["status"] = 200;
+		header(' ', true, 200);
+	}
+	else{
+		$data1["status"] = 204;
+		header(' ', true, 204);
+	}
+	echo json_encode($data1);
+}
+
 
 
 ?>

@@ -1,34 +1,89 @@
 <div class="mainbg">
   <app-nav></app-nav>
   <div class="container maincontainer">
-      <h4 class="text-primary pagetitle">Rates</h4>
-      <div class="alert alert-success" role="alert" *ngIf="successFlag">
-        <strong>{{successFlag}}</strong>
-      </div>
-      <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
-        <strong>{{errorFlag}}</strong>
-      </div>
-      <hr>
-      <form #rateForm="ngForm">
-        <div class="col-md-6">
-        <label>Hotel Name</label>
-            <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname"  [(ngModel)]="hname" name="phame" required/>
-            <datalist id="hotelname">
-              <option value="{{hotel.id}}.{{hotel.name}}" *ngFor="let hotel of hotel_list">{{hotel.name}}</option>
-            </datalist>
-            <br>
-            <label>Menu Name</label>
-            <input type="text" class="form-control" placeholder="Menu Name" list="menus"  [(ngModel)]="mname" name="mname" required/>
-            <datalist id="menus">
-              <option value="{{menu.id}}.{{menu.name}}" *ngFor="let menu of menu_list">{{menu.name}}</option>
-            </datalist>
-            <br>
-            <label>Rate</label>
-            <input type="text" class="form-control" placeholder="Rate"  (keypress)="keyPressNum($event)"  [(ngModel)]="rate" name="rate" required/>
-            <br>
-            <button class="btn btn-primary" (click)="addRate();" [disabled]="rateForm.invalid">
-              <i class="fa fa-save"></i> Save
-            </button>
-        </div>
-      </form>
+    <h4 class="text-primary pagetitle">Rates</h4>
+    <div class="alert alert-success" role="alert" *ngIf="successFlag">
+      <strong>{{successFlag}}</strong>
     </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
+      <strong>{{errorFlag}}</strong>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Hotel Name</label>
+        <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname" [(ngModel)]="hname" name="hhame" [disabled]="isdisable" />
+        <datalist id="hotelname">
+          <option value="{{hotel.id}}.{{hotel.name}}" *ngFor="let hotel of hotel_list">{{hotel.name}}</option>
+        </datalist>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <label>Menu Name</label>
+        <input type="text" class="form-control" placeholder="Menu Name" list="menus" [(ngModel)]="mname" name="mname" [disabled]="isdisable" />
+        <datalist id="menus">
+          <option value="{{menu.id}}.{{menu.name}}" *ngFor="let menu of menu_list">{{menu.name}}</option>
+        </datalist>
+        <br>
+      </div>
+      <div class="col-md-6">
+        <label>Rate</label>
+        <input type="text" class="form-control" placeholder="Rate" (keypress)="keyPressNum($event)" [(ngModel)]="rate" name="rate"
+        />
+        <br>
+        <button class="btn btn-primary" (click)="addRate();" *ngIf="editrate<0">
+          <i class="fa fa-save"></i> Add Rate
+        </button>
+        <div *ngIf="editrate>0">
+          <button class="btn btn-sm btn-warning " (click)="editRateSave()">
+            <i class="fa fa-pencil"></i>Save</button>
+          &nbsp;
+          <button class="btn btn-sm btn-default " (click)="cancel_edit_rate()">
+            <i class="fa fa-times"></i>Cancel</button>
+        </div>
+      </div>
+    </div><br>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Hotel Name" list="hotelname" [(ngModel)]="rhname" />
+        <datalist id="hotelname">
+          <option value="{{hotel.id}}.{{hotel.name}}" *ngFor="let hotel of hotel_list">{{hotel.name}}</option>
+        </datalist>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-primary" (click)="getHotelrates();">
+          <i class="fa fa-list"></i> View Rates
+        </button>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Hotel Name</th>
+              <th>Menu Item</th>
+              <th>Rate</th>
+              <th>Activate/De-Activate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let hotel_rate of hotel_rate_list; let i = index">
+              <td width="10px">{{i+1}}</td>
+              <td width="30px">{{hotel_rate.hname}}</td>
+              <td width="30px">{{hotel_rate.mname}}</td>
+              <td width="30px">{{hotel_rate.rate}}</td>
+              <td width="90px">
+                <button class="btn btn-xs btn-warning ml10" (click)="edit_rate(i,hotel_rate.id,hotel_rate.hid,hotel_rate.mid)" title="Edit Hotel"><i
+                    class="fa fa-pencil"></i></button>
+                <button class="btn btn-xs btn-success ml10" (click)="toggleRate(hotel_rate.id,'activate')" *ngIf="hotel_rate.deleted_by">Activate</button>
+                <button class="btn btn-xs btn-danger ml10" (click)="toggleRate(hotel_rate.id,'deactivate')" *ngIf="!hotel_rate.deleted_by">Deactivate</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

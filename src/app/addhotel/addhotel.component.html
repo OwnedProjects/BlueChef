@@ -9,35 +9,36 @@
     </div>
     <h4 class="text-primary pagetitle">Add Hotel</h4>
     <hr>
-    <form #hotelForm="ngForm">
-      <div class="col-md-6">
-        <label>Hotel Name</label>
-        <input type="text" class="form-control" placeholder="Hotel Name" [(ngModel)]="hname" name="hname" required>
-        <br>
-        <label>Address</label>
-        <textarea placeholder="Address" class="form-control" [(ngModel)]="hadd" name="hadd" required></textarea>
-        <br>
-      </div>
-      <div class="col-md-6">
-        <label>Contact Person</label>
-        <input type="text" class="form-control" list="contactperson" placeholder="Contact Person" [(ngModel)]="hcont" name="hcont" required>
-        <datalist id="contactperson">
-          <option value="{{user.id}}.{{user.fname}}.{{user.lname}}" *ngFor="let user of user_list">{{user.fname}}.{{user.lname}}</option>
-        </datalist>
-        <br>
-        <label>Contact Number</label>
-        <input type="text" class="form-control" (keypress)="keyPressNum($event)" placeholder="Contact Number" [(ngModel)]="hno" name="hno"
-          minlength=10 maxlength=10 required>
-        <br>
-      </div>
-
-      <div class="col-md-12">
-        <button class="btn btn-primary" (click)="addHotel();" [disabled]="hotelForm.invalid">
-          <i class="fa fa-save"></i> Add Hotel
-        </button>
-      </div>
-    </form>
-    
+    <div class="col-md-6">
+      <label>Hotel Name</label>
+      <input type="text" class="form-control" placeholder="Hotel Name" [(ngModel)]="hname" name="hname">
+      <br>
+      <label>Address</label>
+      <textarea placeholder="Address" class="form-control" [(ngModel)]="hadd" name="hadd"></textarea>
+      <br>
+    </div>
+    <div class="col-md-6">
+      <label>Contact Person</label>
+      <input type="text" class="form-control" list="contactperson" placeholder="Contact Person" [(ngModel)]="hcont" name="hcont">
+      <datalist id="contactperson">
+        <option value="{{user.id}}.{{user.fname}}.{{user.lname}}" *ngFor="let user of user_list">{{user.fname}}.{{user.lname}}</option>
+      </datalist>
+      <br>
+      <label>Contact Number</label>
+      <input type="text" class="form-control" (keypress)="keyPressNum($event)" placeholder="Contact Number" [(ngModel)]="hno" name="hno"
+        minlength=10 maxlength=10>
+      <br>
+    </div>
+    <div class="col-md-12">
+      <button class="btn btn-primary" (click)="addHotel();" *ngIf="editHotel<0"><i class="fa fa-save"></i> Add Hotel</button>
+      <div *ngIf="editHotel>0">
+          <button class="btn btn-sm btn-warning " (click)="editHotelSave()">
+            <i class="fa fa-pencil"></i>Save</button>
+          &nbsp;
+          <button class="btn btn-sm btn-default " (click)="cancel_edit_Hotel()">
+            <i class="fa fa-times"></i>Cancel</button>
+        </div>
+    </div>
     <div class="col-md-12">
       <br/>
       <h3 class="text-primary pagetitle"> All Hotels</h3>
@@ -48,7 +49,7 @@
           <span class="input-group-addon btn-info" id="basic-addon1">
             <i class="fa fa-search"></i>
           </span>
-          <input class="form-control" placeholder="Search Menu" [(ngModel)]="searchInput" aria-describedby="basic-addon1">
+          <input class="form-control" placeholder="Search Menu" aria-describedby="basic-addon1">
         </div>
       </div>
       <div class="col-md-12 row">
@@ -64,12 +65,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let hotel of hotel_list | searchByName: searchInput; let i = index">
-              <td width="40px">{{i+1}}</td>
-              <td>{{hotel.name}}</td>
-              <td>{{hotel.contact_person}}/{{hotel.contact_number}}</td>
-              <td>{{hotel.address}}</td>
+            <tr *ngFor="let hotel of hotel_list; let i = index">
+              <td width="10px">{{i+1}}</td>
+              <td width="30px">{{hotel.name}}</td>
+              <td width="30px">{{hotel.contact_person}}/{{hotel.contact_number}}</td>
+              <td width="30px">{{hotel.address}}</td>
               <td width="90px">
+                  <button class="btn btn-xs btn-warning ml10" (click)="edit_Hotel(i,hotel.id,hotel.uid)" title="Edit Hotel"><i class="fa fa-pencil"></i></button>
                 <button class="btn btn-xs btn-success ml10" (click)="toggleHotel(hotel.id,'activate')" *ngIf="hotel.deleted_by"  >Activate</button>
                 <button class="btn btn-xs btn-danger ml10" (click)="toggleHotel(hotel.id,'deactivate')"  *ngIf="!hotel.deleted_by"  >Deactivate</button>
               </td>

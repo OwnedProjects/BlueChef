@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -26,14 +26,12 @@ import { AddsupplierComponent } from './addsupplier/addsupplier.component';
 import { InverntoryinComponent } from './inverntoryin/inverntoryin.component';
 import { InventoryoutComponent } from './inventoryout/inventoryout.component';
 
-
 //Services
 import { LoginService } from './login.service';
 import { OrderService } from './order.service';
 import { MenuService } from './menu.service';
 import { HotelService } from './hotel.service';
 import { GlobalService } from './global.service';
-import { SearchByNamePipe } from './search-by-name.pipe';
 
 const routes:Routes = RoutesConfig;
 
@@ -53,8 +51,7 @@ const routes:Routes = RoutesConfig;
     AddHotelComponent,
     AddsupplierComponent,
     InverntoryinComponent,
-    InventoryoutComponent,
-    SearchByNamePipe
+    InventoryoutComponent
   ],
   imports: [
     BrowserModule,

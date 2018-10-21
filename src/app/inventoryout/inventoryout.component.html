@@ -3,103 +3,86 @@
   <div class="container maincontainer">
     <h4 class="text-primary pagetitle">Inventory Out</h4>
     <hr>
+    <div class="alert alert-success" role="alert" *ngIf="successFlag">
+      <strong>{{successFlag}}</strong>
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
+      <strong>{{errorFlag}}</strong>
+    </div>
     <div class="row">
-      <div class="col-xs-12  col-md-12">
+      <div class="col-xs-12  col-md-6">
+        <label>Date & Time</label>
+        <input type="text" class="form-control" placeholder="Enter Date (DD/MM/YYYY)" (blur)="validate_date()" [(ngModel)]="dtpDelDate"
+          maxlength="10">
+        <h6 class="text-danger" *ngIf="dateError == true">*Invalid date</h6>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-6 p0">
+        <span>Enter Product</span>
+        <input type="text" class="form-control menutextbox" placeholder="Enter Product" list="productlist" [(ngModel)]="pname" (blur)="check_prod_name()"
+        />
+        <datalist id="productlist">
+          <option value="{{prod.id}}.{{prod.pname}}" *ngFor="let prod of product_list">{{prod.pname}}</option>
+        </datalist>
+        <h6 class="text-danger" *ngIf="prodError">*{{prodError}}</h6>
+      </div>
+      <div class="col-md-2">
+        <span>Quantity</span>
+        <input type="text" class="form-control menutextbox" placeholder="Quantity" [(ngModel)]="quantity" (blur)="validate_quantity()"
+          (keyup)="validate_quantity()" />
+        <h6 class="text-danger" *ngIf="!qtyError">*Invalid quantity</h6>
+      </div>
 
-        <div class="row">
-          <div class="col-xs-4 col-md-2 ">Date & Time</div>
-          <div class="col-xs-8 col-md-8">
-            <input type="text" class="form-control " value="20/10/2018 10:20 AM" disabled>
-          </div>
-        </div>
-        <br>
+      <div class="col-md-4">
+        <button class="btn btn-sm btn-info btn-addmenu" (click)="add_product()" [disabled]="!pname || !quantity  || prodError || !qtyError"
+          *ngIf="editProdcut<0">
+          <i class="fa fa-plus"></i> Add
+        </button>
+        <button class="btn btn-sm btn-warning btn-addmenu" (click)="save_editProduct()" *ngIf="editProdcut>=0" [disabled]="!pname || !quantity  || prodError || !qtyError">
+          <i class="fa fa-pencil"></i> Save
+        </button>
+        <button class="btn btn-sm btn-default btn-addmenu" (click)="cancel_editProduct()" *ngIf="editProdcut>=0">
+          <i class="fa fa-times"></i> Cancel
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 p0">
+        <table class="table menuTable">
+          <thead>
+            <tr>
+              <th width="40px">#</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
 
-        <br>
-        <div class="panel panel-default">
-          <div class="panel-heading">Products</div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-xs-12">
-                <table class="table table-striped">
-                  <thead>
-                    <th>Sr</th>
-                    <th>Product Name</th>
-                    <th>Qty</th>
-                    <th></th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>
-                        <select class="form-control prod_list">
-                          <option selected value="Product1">Product1</option>
-                          <option value="AProduct2">AProduct2</option>
-                          <option value="CProduct3">CProduct3</option>
-                          <option value="RProductr4">RProductr4</option>
-                          <option value="AProduct5">AProduct5</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button class="btn btn-xs btn-danger">X</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>
-                        <select class="form-control prod_list">
-                          <option value="Product1">Product1</option>
-                          <option value="AProduct2">AProduct2</option>
-                          <option selected value="CProduct3">CProduct3</option>
-                          <option value="RProductr4">RProductr4</option>
-                          <option value="AProduct5">AProduct5</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button class="btn btn-xs btn-danger">X</button>
-                      </td>
+              <th width="90px">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of outproducts; let i = index">
+              <td width="30px">{{i+1}}</td>
+              <td width="30px">{{list.pname}}/{{list.prodid}}</td>
+              <td width="30px">{{list.qty}}</td>
+              <td width="90px">
+                <button class="btn btn-xs btn-warning ml10" (click)="edit_product(i,list.prodid)" *ngIf="editProdcut<0" title="Edit Product"><i
+                    class="fa fa-pencil"></i></button>
+                <button class="btn btn-xs btn-danger ml10" (click)="remove_prodcut(i)" *ngIf="editProdcut<0" title="Remove Product"><i
+                    class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr *ngIf="outproducts.length<=0">
+              <td colspan="6">Please select a product...</td>
+            </tr>
 
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>
-                        <select class="form-control prod_list">
-                          <option value="Product1">Product1</option>
-                          <option value="AProduct2">AProduct2</option>
-                          <option value="CProduct3">CProduct3</option>
-                          <option selected value="RProductr4">RProductr4</option>
-                          <option value="AProduct5">AProduct5</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button class="btn btn-xs btn-danger">X</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>
-                        <select class="form-control prod_list">
-                          <option value="Product1">Product1</option>
-                          <option value="AProduct2">AProduct2</option>
-                          <option value="CProduct3">CProduct3</option>
-                          <option value="RProductr4">RProductr4</option>
-                          <option selected value="AProduct5">AProduct5</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button class="btn btn-xs btn-danger">X</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="row pull-right">
-                  <div class="col-xs-12">
-                    <button class="btn btn-sm btn-info">Save</button></div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
+            <tr>
+              <td colspan="6">
+                <button class="btn btn-sm btn-primary" [disabled]="outproducts.length<=0" (click)="remove_inventory()">Remove Inventory</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

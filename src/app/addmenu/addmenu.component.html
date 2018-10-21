@@ -9,28 +9,31 @@
       <div class="alert alert-danger" role="alert" *ngIf="errorFlag">
         <strong>{{errorFlag}}</strong>
       </div>
-
-      <form #menuForm="ngForm">
-        <div class="col-md-6">
-          <label>Menu Name</label>
-          <input type="text" class="form-control" placeholder="Menu Name"  [(ngModel)]="mname" name="mname" required>
+      <div class="col-md-6">
+        <label>Menu Name</label>
+        <input type="text" class="form-control" placeholder="Menu Name"  [(ngModel)]="mname" name="mname">
+        <br>
+      </div>
+      <div class="col-md-6">
+        <label>Menu Type</label>
+          <input type="text" class="form-control" list="menutype" placeholder="Menu Type"  [(ngModel)]="mtype" name="mtype">
           <br>
-        </div>
-        <div class="col-md-6">
-          <label>Menu Type</label>
-            <input type="text" class="form-control" list="menutype" placeholder="Menu Type"  [(ngModel)]="mtype" name="mtype" required>
-            <br>
-            <datalist id="menutype">
-              <option value="{{mtype.id}}.{{mtype.name}}" *ngFor="let mtype of mtype_list">{{mtype.name}}</option>
-            </datalist>
-        </div>
-        <div class="col-md-6">
-          <button class="btn btn-primary" (click)="addMenu();" [disabled]="menuForm.invalid">
-            <i class="fa fa-save"></i>  Add
-          </button>
-        </div>
-      </form>
-
+          <datalist id="menutype">
+            <option value="{{mtype.id}}.{{mtype.name}}" *ngFor="let mtype of mtype_list">{{mtype.name}}</option>
+          </datalist>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-primary" (click)="addMenu();" *ngIf="editmenu<0" >
+          <i class="fa fa-save"></i>  Add
+        </button>
+        <div *ngIf="editmenu>0">
+            <button class="btn btn-sm btn-warning " (click)="editMenuSave()">
+              <i class="fa fa-pencil"></i>Save</button>
+            &nbsp;
+            <button class="btn btn-sm btn-default " (click)="cancel_edit_Menu()">
+              <i class="fa fa-times"></i>Cancel</button>
+          </div>
+      </div>
       <div class="col-md-12">
         <br>
         <h3 class="text-primary pagetitle">All Menu</h3>
@@ -41,7 +44,7 @@
             <span class="input-group-addon btn-info" id="basic-addon1">
                 <i class="fa fa-search"></i>
             </span>
-            <input class="form-control" placeholder="Search Menu" [(ngModel)]="searchInput" aria-describedby="basic-addon1">
+            <input class="form-control" placeholder="Search Menu" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col-md-12 row">
@@ -56,11 +59,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let menu of menu_list | searchByName: searchInput; let i = index">
-                <td width="20px">{{i+1}}</td>
+              <tr *ngFor="let menu of menu_list; let i = index">
+                <td width="40px">{{i+1}}</td>
                 <td>{{menu.name}}</td>
-                <td>{{menu.mtype}}</td>
-                <td width="70px">
+                <td>{{menu.mtype}}/{{menu.tid}}</td>
+                <td  >
+                    <button class="btn btn-xs btn-warning ml10" (click)="edit_Menu(i,menu.id,menu.tid)" title="Edit Prodcut"><i class="fa fa-pencil"></i></button>
                   <button class="btn btn-xs btn-success ml10" (click)="toggleMenu(menu.id,'activate')" *ngIf="menu.deleted_by"  >Activate</button>
                   <button class="btn btn-xs btn-danger ml10" (click)="toggleMenu(menu.id,'deactivate')"  *ngIf="!menu.deleted_by"  >Deactivate</button>
                 </td>

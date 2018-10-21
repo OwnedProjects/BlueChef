@@ -41,7 +41,7 @@
             <span>Enter Product</span>
             <input type="text" class="form-control menutextbox" placeholder="Enter Product" list="productlist" [(ngModel)]="pname" (blur)="check_prod_name()" [readonly]="editProdcut>=0"/>
             <datalist id="productlist">
-                <option value="{{prod.id}}.{{prod.name}}" *ngFor="let prod of product_list">{{prod.name}}</option>
+                <option value="{{prod.id}}.{{prod.pname}}" *ngFor="let prod of product_list">{{prod.pname}}</option>
               </datalist>
             <h6 class="text-danger" *ngIf="prodError">*{{prodError}}</h6>
         </div>
@@ -100,7 +100,7 @@
               </tr>
               <tr>
                 <td colspan="6">
-                  <button class="btn btn-sm btn-primary" [disabled]="supplier_products.length<=0 || !dtpDelDate || !billno || !sname || dateError" (click)="add_inventory()">Place Order</button>
+                  <button class="btn btn-sm btn-primary" [disabled]="supplier_products.length<=0 || !dtpDelDate || !billno || !sname || dateError" (click)="add_inventory()">Add Inventory</button>
                 </td>
               </tr>
             </tbody>
