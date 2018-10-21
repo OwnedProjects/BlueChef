@@ -36,7 +36,7 @@ export class AddHotelComponent implements OnInit {
   }
 
   getHotelsList() {
-    this._hotelService.getUserHotel().subscribe(response => {
+    this._hotelService.getUserHotel(this.userdata[0].id).subscribe(response => {
       this.hotel_list = response["data"];
     },  err => {
       console.log("Error:", err);

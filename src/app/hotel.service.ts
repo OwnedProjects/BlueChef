@@ -13,8 +13,12 @@ export class HotelService {
     this.server = _global.serverpath;
   }
 
-  getUserHotel(){
-    return this._http.get(this.server + 'assets/db/hotel.php?action=userHotel')
+  getAllHotels(){
+    return this._http.get(this.server + 'assets/db/hotel.php?action=allHotels')
+  }
+
+  getUserHotel(usrId){
+    return this._http.get(this.server + 'assets/db/hotel.php?action=userHotel&usrId='+usrId)
   }
   
   getUsers(){

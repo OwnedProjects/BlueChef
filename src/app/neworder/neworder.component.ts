@@ -27,6 +27,7 @@ export class NeworderComponent implements OnInit {
   remarks: String = null;
   openOrders: any;
   orderPresent: any;
+  userData: any;
 
   constructor(private _order: OrderService, private _menu: MenuService, private _hotel: HotelService, private router: Router) { }
 
@@ -40,37 +41,47 @@ export class NeworderComponent implements OnInit {
       }
     }
 
-    this._hotel.getUserHotel().subscribe(res =>{
+    if(sessionStorage.getItem("userdata")){
+      this.userData = JSON.parse(sessionStorage.getItem("userdata"));
+      //console.log(this.userData[0].id)
+    }
+    else{
+      sessionStorage.removeItem("newOrder");
+      sessionStorage.removeItem("hotel_id");
+      this.router.navigate(["/home"]);
+    }
+
+    this._hotel.getUserHotel(this.userData[0].id).subscribe(res =>{
       console.log("Init Hotel: ",res);
       if(res){
-        sessionStorage.setItem("hotel_id", res["data"][0].id)
+        //sessionStorage.setItem("hotel_id", res["data"][0].id)
         this.hotelID = res["data"][0].id;
         this.delAddress = res["data"][0].address;
         this.orderTakenBy = res["data"][0].contact_person;
         this.contactNo = res["data"][0].contact_number;
         this.get_all_orders();
+        this.menuList();
       }
     });
-
-    this.menuList();
 
     var dt = new Date();
     if(dt.getDate()<10 && (dt.getMonth()+1)<10){
       this.dtpDelDate = "0"+dt.getDate() + "/0" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
-    else if(dt.getDate()<10){
+    else if(dt.getDate()<10 && (dt.getMonth()+1)>10){
       this.dtpDelDate = "0"+dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
-    else{
+    else if(dt.getDate()>10 && (dt.getMonth()+1)<10){
       this.dtpDelDate = dt.getDate() + "/0" + (dt.getMonth()+1) + "/" + dt.getFullYear();
     }
-    //this.dtpDelDate = dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear()
-    
+    else{
+      this.dtpDelDate = dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear();
+    }
   }
 
   menuList() {
-    this._menu.getAllMenus().subscribe(response => {
-      // console.log("getAllMenus: ",response);
+    this._menu.getHotelMenus(this.hotelID).subscribe(response => {
+      console.log("getHotelMenus: ",response);
       if(response){
         this.all_menus = response["data"];
       }
@@ -169,6 +180,7 @@ export class NeworderComponent implements OnInit {
       remarks: this.remarks,
       orderTakenBy: this.orderTakenBy,
       orderMenu: this.order_menu,
+      amount: this.totalAmount,
       restore: 'No'
     };
     // this._order.placeOrer(this.hotelID,this.dtpDelDate, this.delAddress, this.contactNo, this.remarks, this.orderTakenBy,this.order_menu)

@@ -1,3 +1,4 @@
+import { HotelService } from './../hotel.service';
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
@@ -14,7 +15,7 @@ export class HomeComponent implements OnInit {
   passwd: String = null;
   
 
-  constructor(private _loginService: LoginService, private router: Router) { }
+  constructor(private _loginService: LoginService, private router: Router, private _hotel: HotelService) { }
 
   ngOnInit() {
     console.log("Home Loaded")
@@ -24,13 +25,20 @@ export class HomeComponent implements OnInit {
     //this.router.navigate(["/caterdb"]);
     //return;
     if(this.usernm && this.passwd){
-      console.log("Test", this.usernm, this.passwd);
+      //console.log("Test", this.usernm, this.passwd);
       this.errorMessage = null;
       this._loginService.validateLogin(this.usernm, this.passwd)
         .subscribe(response => {
-          console.log("Response", response);
+          //console.log("Response", response);
           sessionStorage.setItem("userdata", JSON.stringify(response["data"]));
           if(response["status"]==200){
+            //console.log(response["data"][0].id);
+            this._hotel.getUserHotel(response["data"][0].id).subscribe(res =>{
+              console.log("Init Hotel: ",res);
+              if(res){
+                sessionStorage.setItem("hotel_id", res["data"][0].id)
+              }
+            });
             this.router.navigate(["/caterdb"]);
           }
           else{

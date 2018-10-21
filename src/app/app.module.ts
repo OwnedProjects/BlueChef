@@ -1,3 +1,4 @@
+import { BillService } from './bill.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -34,6 +35,11 @@ import { MenuService } from './menu.service';
 import { HotelService } from './hotel.service';
 import { GlobalService } from './global.service';
 import { SearchByNamePipe } from './search-by-name.pipe';
+import { SearchmenuPipe } from './searchmenu.pipe';
+import { VieworderComponent } from './vieworder/vieworder.component';
+import { ViewallordersComponent } from './viewallorders/viewallorders.component';
+import { ViewalloutdelComponent } from './viewalloutdel/viewalloutdel.component';
+import { BillingComponent } from './billing/billing.component';
 
 const routes:Routes = RoutesConfig;
 
@@ -54,7 +60,12 @@ const routes:Routes = RoutesConfig;
     AddsupplierComponent,
     InverntoryinComponent,
     InventoryoutComponent,
-    SearchByNamePipe
+    SearchByNamePipe,
+    SearchmenuPipe,
+    VieworderComponent,
+    ViewallordersComponent,
+    ViewalloutdelComponent,
+    BillingComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +73,7 @@ const routes:Routes = RoutesConfig;
     HttpClientModule,
     RouterModule.forRoot(routes, {useHash: true})
   ],
-  providers: [ LoginService, OrderService, MenuService, HotelService, GlobalService ],
+  providers: [ LoginService, OrderService, MenuService, HotelService, GlobalService, BillService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

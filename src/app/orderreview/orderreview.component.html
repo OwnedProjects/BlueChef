@@ -14,5 +14,64 @@
         <h5><a routerLink="/neworder" class="btn-link">Click</a> to go home <i class="fa fa-home"></i> </h5>
       </div>
     </div>
+
+    <div class="panel panel-default" *ngIf="billDets">
+      <div class="panel-heading">
+        <h3 class="panel-title">Bill Details</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-12">
+            <table class="table noborder">
+                <tbody>
+                  <tr>
+                    <td width="100">Bill Id</td>
+                    <td><span class="bold">{{billDets.billID}}</span>
+                      <span class="floatRight">Expected Delivery On: <span class="bold">{{billDets.delDate | date: 'dd-MM-yyyy'}}</span></span>
+                      <span class="floatRight mr10">Bill Date: <span class="bold">{{billDets.billDate | date: 'dd-MM-yyyy'}}</span></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td width="100">Hotel</td>
+                    <td><span class="bold">{{billDets.hotelNm}}</span></td>
+                  </tr>
+                  <tr>
+                    <td width="100">Order By</td>
+                    <td><span class="bold">{{billDets.orderBy}}</span></td>
+                  </tr>
+                  <tr>
+                    <td width="100">Contact</td>
+                    <td><span class="bold">{{billDets.contNo}}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Menu</th>
+                      <th>Quantity</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of orderDets; let i = index;">
+                      <td>{{i+1}}</td>
+                      <td>{{order.name}}</td>
+                      <td>{{order.quantity}}</td>
+                      <td>{{order.rate}}</td>
+                      <td>{{order.quantity * order.rate}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">&nbsp;</td>
+                      <td><span class="floatRight bold">Total Amount</span></td>
+                      <td class="bold">{{totalAmt}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

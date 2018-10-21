@@ -12,7 +12,7 @@ export class LoginService {
   }
 
   validateLogin(unm, pwd){
-    console.log("validateLogin", unm, pwd);
+    //console.log("validateLogin", unm, pwd);
     return this._http.get(this.server+"assets/db/login.php?action=checkLogin&usernm="+unm+"&passwd="+pwd);
   }
 }

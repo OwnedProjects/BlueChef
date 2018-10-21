@@ -1,0 +1,37 @@
+.table.noborder > tbody > tr > td{
+    border: none;
+}
+
+.mt5{
+    margin-top: 5px;
+}
+
+a{
+    color:inherit;
+}
+
+.relative{
+    position: relative;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.paymentWrapper{
+    min-height: 100px;
+    max-height: 200px;
+    height: auto;
+    width: 100%;
+    margin-top: 15px;
+    border: 1px solid #cccccc;
+    background: #f0e68c;
+    margin-left: -10px;
+    padding: 10px;
+    overflow: auto;
+}
+
+.closePopUp{
+    font-size: 1.3em;
+    cursor: pointer;
+}

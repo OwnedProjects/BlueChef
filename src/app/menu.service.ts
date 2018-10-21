@@ -15,6 +15,12 @@ export class MenuService {
   getAllMenus(){
     return this._http.get(this.server + 'assets/db/menu.php?action=allMenus');
   }
+
+  
+  getHotelMenus(hid){
+    return this._http.get(this.server + 'assets/db/menu.php?action=hotelMenus&hotelId='+ hid);
+  }
+
   getMtype(){
     return this._http.get(this.server + 'assets/db/menu.php?action=menuType');
   }

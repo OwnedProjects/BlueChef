@@ -8,8 +8,9 @@ include 'conn.php';
 $action = $_GET['action'];
 
 if($action == "userHotel"){
+	$usrId = $_GET["usrId"];
 	$rows= array();
-	$sql = "SELECT u.user_name,h.id,h.address,h.contact_person,h.contact_number,h.name,h.deleted_by FROM `user_register` u, `hotel_register` h WHERE u.id = h.user_id";
+	$sql = "SELECT u.user_name,h.id,h.address,h.contact_person,h.contact_number,h.name,h.deleted_by FROM `user_register` u, `hotel_register` h WHERE u.id = h.user_id and h.user_id=$usrId";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_array())
 	{
@@ -44,7 +45,42 @@ if($action == "userHotel"){
 	echo json_encode($data);
 }
 
-	//get user
+if($action == "allHotels"){
+	$rows= array();
+	$sql = "SELECT u.user_name,h.id,h.address,h.contact_person,h.contact_number,h.name,h.deleted_by FROM `user_register` u, `hotel_register` h WHERE u.id = h.user_id";
+	$result = $conn->query($sql);
+	while($row = $result->fetch_array())
+	{
+		$rows[] = $row;
+	}
+
+	$tmp = array();
+	$data = array();
+	$i = 0;
+	if(count($rows)>0){
+		foreach($rows as $row)
+		{
+			$tmp[$i]['id'] = $row['id'];
+			$tmp[$i]['name'] = $row['name'];
+			$tmp[$i]['address'] = $row['address'];
+			$tmp[$i]['contact_person'] = $row['contact_person'];
+			$tmp[$i]['contact_number'] = $row['contact_number'];
+			$tmp[$i]['deleted_by'] = $row['deleted_by'];
+			$i++;
+		}
+		$data["status"] = 200;
+		$data["data"] = $tmp;
+		header(' ', true, 200);
+	}
+	else{
+		$data["status"] = 204;
+		header(' ', true, 204);
+	}
+
+	echo json_encode($data);
+}
+
+//get user
 if($action == "usersList"){
 
 	$sql = "select * from user_register";

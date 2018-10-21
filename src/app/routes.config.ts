@@ -1,8 +1,11 @@
+import { BillingComponent } from './billing/billing.component';
+import { ViewalloutdelComponent } from './viewalloutdel/viewalloutdel.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardcaterComponent } from './dashboardcater/dashboardcater.component';
 import { NeworderComponent } from './neworder/neworder.component';
 import { OrderconfirmationComponent } from './orderconfirmation/orderconfirmation.component';
 import { OrderreviewComponent } from './orderreview/orderreview.component';
+import { VieworderComponent } from './vieworder/vieworder.component';
 
 // Afreen's Components
 import { AddUserComponent } from './adduser/adduser.component';
@@ -15,6 +18,7 @@ import { AddsupplierComponent } from './addsupplier/addsupplier.component';
 //Sufiyan's Code
 import { InverntoryinComponent } from './inverntoryin/inverntoryin.component';
 import { InventoryoutComponent } from './inventoryout/inventoryout.component';
+import { ViewallordersComponent } from './viewallorders/viewallorders.component';
 
 export let RoutesConfig: any = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -30,5 +34,9 @@ export let RoutesConfig: any = [
     { path: 'addsupplier', component: AddsupplierComponent },
     { path: 'addproduct', component: AddProductComponent },
     { path: 'invin', component: InverntoryinComponent },
-    { path: 'invout', component: InventoryoutComponent }
+    { path: 'vieworder/:oId/:acceptedFlag', component: VieworderComponent },
+    { path: 'invout', component: InventoryoutComponent },
+    { path: 'allorders', component: ViewallordersComponent },
+    { path: 'alloutdel', component: ViewalloutdelComponent },
+    { path: 'billing', component: BillingComponent }
 ];

@@ -17,7 +17,7 @@
                     <th>#</th>
                     <th>Hotel Name</th>
                     <th>Expected On</th>
-                    <th class="textRight">Review Order</th>
+                    <th class="textRight">View Order</th>
                   </tr>
                 </thead>
               <tbody>
@@ -26,15 +26,15 @@
                     <h5 class="text-primary"><i class="fa fa-spinner fa-pulse"></i> Please wait...</h5>
                   </td>
                 </tr>
-                <tr *ngFor="let order of receivedOrders;let i=index">
+                <tr *ngFor="let order of receivedOrders | slice: 0:5 ;let i=index">
                   <td>{{i+1}}</td>
                   <td>{{order.name}}</td>
                   <td>{{order.delivery_date | date: 'dd-MM-yyyy'}}</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
+                  <td><button class="btn-link floatRight" routerLink="/vieworder/{{order.id}}/1"><i class="fa fa-location-arrow"></i> View Order</button></td>
                 </tr>
                 <tr>
                   <td colspan="4">
-                    <button class="btn-link floatRight"><i class="fa fa-search-plus"></i> View All</button>
+                    <button class="btn-link floatRight" routerLink="/allorders"><i class="fa fa-search-plus"></i> View All</button>
                   </td>
                 </tr>
               </tbody>
@@ -44,7 +44,7 @@
       </div>
 
       <!-- Pending Deliveries -->
-      <div class="col-sm-6" *ngIf="pendingDelivery">
+      <div class="col-sm-6" *ngIf="pendingDeliveries">
         <div class="panel panel-info">
           <div class="panel-heading">
             <h3 class="panel-title">Pending Deliveries</h3>
@@ -60,39 +60,17 @@
                     </tr>
                   </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
+                  <tr *ngFor="let delivery of pendingDeliveries; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{delivery.name}}</td>
+                    <td>{{delivery.delivery_date | date: 'dd-MM-yyyy' }}</td>
+                    <td>
+                      <button class="btn-link floatRight" routerLink="/vieworder/{{delivery.id}}/2"><i class="fa fa-location-arrow"></i> View Order</button>
+                    </td>
                   </tr>
                   <tr>
                     <td colspan="4">
-                      <button class="btn-link floatRight"><i class="fa fa-search-plus"></i> View All</button>
+                      <button class="btn-link floatRight" routerLink="/alloutdel/"><i class="fa fa-search-plus"></i> View All</button>
                     </td>
                   </tr>
                 </tbody>
@@ -112,45 +90,21 @@
               <thead>
                   <tr>
                     <th>#</th>
+                    <th>Order(ORD)</th>
                     <th>Hotel Name</th>
                     <th>Delivery Address</th>
-                    <th class="textRight">Review Order</th>
                   </tr>
                 </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td><button class="btn-link floatRight"><i class="fa fa-location-arrow"></i> Review Order</button></td>
+                <tr *ngFor="let delivery of deliveryOut | slice: 0:5; let i=index;">
+                  <td>{{i+1}}</td>
+                  <td>{{delivery.id}}</td>
+                  <td>{{delivery.name}}</td>
+                  <td>{{delivery.address}}</td>
                 </tr>
                 <tr>
                   <td colspan="4">
-                    <button class="btn-link floatRight"><i class="fa fa-search-plus"></i> View All</button>
+                    <button class="btn-link floatRight" routerLink="/alloutdel"><i class="fa fa-search-plus"></i> View All</button>
                   </td>
                 </tr>
               </tbody>
@@ -168,7 +122,7 @@
                 <span class="input-group-addon btn-info" id="basic-addon1">
                   <i class="fa fa-search"></i>
                 </span>
-                <input class="form-control" placeholder="Search Menu" aria-describedby="basic-addon1"> 
+                <input class="form-control" placeholder="Search Menu" [(ngModel)]="searchMenuInput" aria-describedby="basic-addon1"> 
               </div>
               <!-- <input type="text" class="form-control floatRight searchBox" placeholder="Search Menu"> -->
           </div>
@@ -182,7 +136,7 @@
                     </tr>
                   </thead>
                 <tbody>
-                  <tr *ngFor="let menu of allMenus | slice:0:5; let i = index">
+                  <tr *ngFor="let menu of allMenus | searchMenu:'name':searchMenuInput | slice:0:5; let i = index">
                     <td>{{i+1}}</td>
                     <td>{{menu.name}}</td>
                     <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Menu</button></td>
@@ -202,7 +156,7 @@
                 <span class="input-group-addon btn-info" id="basic-addon1">
                     <i class="fa fa-search"></i>
                 </span>
-                <input class="form-control" placeholder="Search Hotel" aria-describedby="basic-addon1"> 
+                <input class="form-control" placeholder="Search Hotel" [(ngModel)]="searchHotelInput" aria-describedby="basic-addon1"> 
               </div>
               <!-- <input type="text" class="form-control floatRight searchBox" placeholder="Search Menu"> -->
           </div>
@@ -212,49 +166,19 @@
                     <tr>
                       <th>#</th>
                       <th>Hotel Name</th>
-                      <th>Area</th>
+                      <th>Contact Person</th>
                       <th>Contact Number</th>
-                      <th class="textRight">Edit Hotel</th>
                     </tr>
                   </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Hotel</button></td>
+                  <tr *ngFor="let hotel of topHotels | searchMenu:'name':searchHotelInput | slice:0:5; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{hotel.name}}</td>
+                    <td>{{hotel.contact_person}}</td>
+                    <td>{{hotel.contact_number}}</td>
                   </tr>
                   <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Hotel</button></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Hotel</button></td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Hotel</button></td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Hotel</button></td>
-                  </tr>
-                  <tr>
-                    <td colspan="5">
+                    <td colspan="4">
                       <button class="btn btn-sm btn-primary floatRight"><i class="fa fa-plus"></i> Add Hotel</button>
                     </td>
                   </tr>
@@ -273,7 +197,7 @@
                   <span class="input-group-addon btn-info" id="basic-addon1">
                       <i class="fa fa-search"></i>
                   </span>
-                  <input class="form-control" placeholder="Search Supplier" aria-describedby="basic-addon1"> 
+                  <input class="form-control" placeholder="Search Supplier" [(ngModel)]="searchSupplierInput" aria-describedby="basic-addon1"> 
                 </div>
                 <!-- <input type="text" class="form-control floatRight searchBox" placeholder="Search Menu"> -->
             </div>
@@ -283,49 +207,19 @@
                   <tr>
                     <th>#</th>
                     <th>Supplier Name</th>
-                    <th>Area</th>
+                    <th>Contact Person</th>
                     <th>Contact Number</th>
-                    <th class="textRight">Edit Supplier</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Supplier</button></td>
+                  <tr *ngFor="let supplier of topSuppliers | searchMenu:'name':searchSupplierInput; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{supplier.name}}</td>
+                    <td>{{supplier.contact_person}}</td>
+                    <td>{{supplier.contact_number}}</td>
                   </tr>
                   <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Supplier</button></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Supplier</button></td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Supplier</button></td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>123456</td>
-                    <td><button class="btn-link floatRight"><i class="fa fa-pencil"></i> Edit Supplier</button></td>
-                  </tr>
-                  <tr>
-                    <td colspan="5">
+                    <td colspan="4">
                         <button class="btn btn-sm btn-primary floatRight"><i class="fa fa-plus"></i> Add Supplier</button>
                     </td>
                   </tr>

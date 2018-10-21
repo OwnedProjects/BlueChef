@@ -28,14 +28,14 @@ export class RatesComponent implements OnInit {
     } else {
       this.router.navigate(["/home"]);
     }
-    
+    console.log(this.userdata)
     this.getHotelList();
     this.getMenus();
 
   }
 
   getHotelList() {
-    this._hotelService.getUserHotel().subscribe(response => {
+    this._hotelService.getUserHotel(this.userdata[0].id).subscribe(response => {
       if (response["status"] === 200) {
         this.hotel_list = response["data"];
       }
