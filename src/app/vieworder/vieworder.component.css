@@ -1,0 +1,12 @@
+.noborder.table > tbody > tr > td{
+    border:none;
+    font-weight: bold;
+}
+
+.btn{
+    margin-left: 10px;
+}
+
+.mt5{
+    margin-top: 5px;
+}

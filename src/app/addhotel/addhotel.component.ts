@@ -18,6 +18,7 @@ export class AddHotelComponent implements OnInit {
   user_list: any;
   dtpDelDate: String = null;
   hotel_list: any;
+  hotel_all_list: any;
   userdata: any;
   successFlag: String = null;
   errorFlag: String = null;
@@ -36,11 +37,23 @@ export class AddHotelComponent implements OnInit {
         console.log("Error:", err);
       });
 
-    this.getProduct();
+   this.getAllHotel();
   }
 
-  getProduct() {
-    this._hotelService.getUserHotel().subscribe(response => {
+   getAllHotel() {
+     this._hotelService.getAllHotels().subscribe(response => {
+       if(response && response["data"]) {
+        this.hotel_all_list = response["data"];
+       }
+      // this.hotel_all_list = response["data"];
+  },
+  err => {
+    console.log("Error:", err);
+  });
+}
+    
+  getHotelsList() {
+    this._hotelService.getUserHotel(this.userdata[0].id).subscribe(response => {
       this.hotel_list = response["data"];
     },
       err => {
@@ -52,7 +65,7 @@ export class AddHotelComponent implements OnInit {
     this._hotelService.addHotel(this.hname, this.hadd, this.hcont, this.hno, this.userdata[0].id)
       .subscribe(response => {
         if (response["status"] == 200) {
-          this.getProduct();
+          this.getAllHotel();
           this.successFlag = "Hotel added successfully";
           setTimeout(() => {
             this.successFlag = null;
@@ -87,7 +100,7 @@ export class AddHotelComponent implements OnInit {
     this._hotelService.toggleHotel(id, action, this.userdata[0].id)
       .subscribe(response => {
         if (response["status"] == 200) {
-          this.getProduct();
+          this.getAllHotel();
         }
         else {
           alert("Can not deactivate hotel.Please try again later")
@@ -124,7 +137,7 @@ export class AddHotelComponent implements OnInit {
         console.log(response);
         this.editHotel = -1;
         if (response["status"] == 200) {
-          this.getProduct();
+          this.getAllHotel();
           this.successFlag = "Hotel edited successfully";
           setTimeout(() => {
             this.successFlag = null;

@@ -1,3 +1,4 @@
+import { BillService } from './../bill.service';
 import { OrderService } from './../order.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,7 @@ export class OrderconfirmationComponent implements OnInit {
   orderPresent: any; 
   totalAmount: number = 0;
   errorFlag: boolean= false;
-  constructor(private router: Router, private _order: OrderService) { }
+  constructor(private router: Router, private _order: OrderService, private _bill: BillService) { }
 
   ngOnInit() {
     if(sessionStorage.getItem("newOrder")){
@@ -34,11 +35,23 @@ export class OrderconfirmationComponent implements OnInit {
 
   confirm_order(){
     console.log(this.orderPresent)
-    this._order.placeOrer(this.orderPresent.orderDate, this.orderPresent.hotelID,this.orderPresent.dtpDelDate, this.orderPresent.delAddress, this.orderPresent.contactNo, this.orderPresent.remarks, this.orderPresent.orderTakenBy, this.orderPresent.orderMenu)
+    this._order.placeOrder(this.orderPresent.orderDate, this.orderPresent.hotelID,this.orderPresent.dtpDelDate, this.orderPresent.delAddress, this.orderPresent.contactNo, this.orderPresent.remarks, this.orderPresent.orderTakenBy, this.orderPresent.orderMenu)
       .subscribe(response => {
         console.log("conf order: ",response);
-        sessionStorage.removeItem("newOrder");
-        this.router.navigate(["/revieworder/"+ response["data"]]);
+        if(response["data"]){
+          this._bill.addBillDetails(this.orderPresent.orderDate, this.orderPresent.amount, response["data"])
+            .subscribe(respBill => {
+              console.log("Response Bill ", respBill);
+            },
+            errBill => {
+              console.log("ErrorBill ",errBill)
+            })
+          sessionStorage.removeItem("newOrder");
+          this.router.navigate(["/revieworder/"+ response["data"]]);
+        }
+        else{
+          this.errorFlag = true;  
+        }
       },
       err =>{
         console.log(err);

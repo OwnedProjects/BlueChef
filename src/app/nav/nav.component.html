@@ -12,8 +12,9 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse" *ngIf="showmenu">
         <ul class="nav navbar-nav">
-          <li class="active"><a routerLink="/caterdb">Cater Home</a></li>
+          <li><a routerLink="/caterdb">Cater Home</a></li>
           <li><a routerLink="/neworder">New Order</a></li>
+          <li><a routerLink="/billing">Billing</a></li>
           <li><a routerLink="/invin">Inventory In</a></li>
           <li><a routerLink="/invout">Inventory Out</a></li>
           <li class="dropdown">
@@ -29,8 +30,8 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="javascript:void(0)" class="username">Welcome Admin</a></li>
-          <li><a href="javascript:void(0)" routerLink="/home">Logout</a></li>
+          <li><a href="javascript:void(0)" class="username">Welcome <span class="italic bold">{{firstname}}</span></a></li>
+          <li><a href="javascript:void(0)" (click)="logout();">Logout</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->

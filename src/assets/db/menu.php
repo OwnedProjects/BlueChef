@@ -172,6 +172,42 @@ if($action=='toggleMenu'){
 }
 
 
+if($action == "hotelMenus"){
+	$hotelId = $_GET["hotelId"];
+	$rows= array();
+	$sql = "SELECT m.id, m.name, m.menu_type_id AS type, r.rate FROM menu_register m, rate_register r, hotel_register h WHERE r.menu_id=m.id and r.hotel_id=h.id AND h.id=$hotelId";
+	$result = $conn->query($sql);
+	while($row = $result->fetch_array())
+	{
+		$rows[] = $row;
+	}
+
+	$tmp = array();
+	$data = array();
+	$i = 0;
+
+	if(count($rows)>0){
+		foreach($rows as $row)
+		{
+			$tmp[$i]['id'] = $row['id'];
+			$tmp[$i]['name'] = $row['name'];
+			$tmp[$i]['type'] = $row['type'];
+			$tmp[$i]['rate'] = $row['rate'];
+			$i++;
+		}
+		$data["status"] = 200;
+		$data["data"] = $tmp;
+		header(' ', true, 200);
+	}
+	else{
+		$data["status"] = 204;
+		header(' ', true, 204);
+	}
+
+	echo json_encode($data);
+}
+
+
 if($action=='editMenu'){
 	if($_SERVER['REQUEST_METHOD']=='POST'){
 

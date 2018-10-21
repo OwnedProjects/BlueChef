@@ -1,0 +1,42 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+    <h4 class="text-primary pagetitle">View All Running Deliveries</h4>
+    <hr>
+  <div class="col-md-12">
+    <div class="alert alert-success" role="alert" *ngIf="orderSuccess">
+        <strong><i class="fa fa-check"></i> Order Successfully Delivered!</strong>
+      </div>
+    <table class="table">
+        <thead>
+            <tr>
+              <th>#</th>
+              <th>Order(ORD)</th>
+              <th>Hotel Name</th>
+              <th>Delivery Address</th>
+              <th>Accepted By</th>
+              <th class="textRight">Delivered</th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr *ngFor="let delivery of deliveryOut | slice: 0:5; let i=index;trackBy:trackByIndex;">
+            <td>{{i+1}}</td>
+            <td>{{delivery.id}}</td>
+            <td>{{delivery.name}}</td>
+            <td>{{delivery.address}}</td>
+            <td>
+              <input type="text" class="form-control" placeholder="Accepted by" [(ngModel)]="deliveryOut[i].contact_person" />
+            </td>
+            <td><button class="btn-link floatRight" (click)="order_delivered(i)"><i class="fa fa-truck"></i> Delivered</button></td>
+          </tr>
+          <tr *ngIf="!deliveryOut">
+            <td colspan="6">
+              <h5 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Currently there are no pending deliveries.</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  </div>
+</div>
+  

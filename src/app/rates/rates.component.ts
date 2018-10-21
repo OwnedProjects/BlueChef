@@ -36,12 +36,21 @@ export class RatesComponent implements OnInit {
     } else {
       this.router.navigate(["/home"]);
     }
-    this._hotelService.getUserHotel().subscribe(response => {
-      this.hotel_list = response["data"];
-    },
-      err => {
-        console.log("Error:", err);
-      });
+    this.getHotelList();
+    this.getMenus();
+  }
+
+  getHotelList() {
+    this._hotelService.getAllHotels().subscribe(response => {
+      if (response["status"] === 200) {
+        this.hotel_list = response["data"];
+      }
+    }, err => {
+      console.log("Error:", err);
+    });
+  }
+
+  getMenus() {
     this._menuService.getMenuList().subscribe(response => {
       this.menu_list = response["data"];
     },
@@ -86,8 +95,11 @@ export class RatesComponent implements OnInit {
 
   getHotelrates() {
     this._rateService.getHotelRate(this.rhname).subscribe(response => {
-      console.log(response);
-      this.hotel_rate_list = response["data"];
+      if(response && response['data']){
+        this.hotel_rate_list = response["data"];
+      } else {
+        alert("No Rates for this Hotel")
+      }      
     },
       err => {
         console.log("Error:", err);

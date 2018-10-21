@@ -62,7 +62,7 @@
               <tr *ngFor="let menu of menu_list; let i = index">
                 <td width="40px">{{i+1}}</td>
                 <td>{{menu.name}}</td>
-                <td>{{menu.mtype}}/{{menu.tid}}</td>
+                <td>{{menu.mtype}}</td>
                 <td  >
                     <button class="btn btn-xs btn-warning ml10" (click)="edit_Menu(i,menu.id,menu.tid)" title="Edit Prodcut"><i class="fa fa-pencil"></i></button>
                   <button class="btn btn-xs btn-success ml10" (click)="toggleMenu(menu.id,'activate')" *ngIf="menu.deleted_by"  >Activate</button>

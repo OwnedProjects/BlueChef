@@ -1,0 +1,81 @@
+<div class="mainbg">
+  <app-nav></app-nav>
+  <div class="container maincontainer">
+      <h4 class="text-primary pagetitle">View Order</h4>
+      <hr>
+      
+      <div class="col-md-12" *ngIf="orderDets">
+        <table class="table noborder">
+          <tbody>
+            <tr>
+              <td width="120">Bill ID</td>
+              <td><span class="text-primary">{{billId}}</span></td>
+              <td>
+                <span class="floatRight ml10">Delivery Date <span class="text-primary">{{orderDets.delivery_date | date: 'dd-MM-yyyy'}}</span> </span>
+                <span class="floatRight">Order Date <span class="text-primary">{{orderDets.order_date | date: 'dd-MM-yyyy'}}</span> </span>
+              </td>
+            </tr>
+            <tr>
+              <td width="120">Hotel Name</td>
+              <td colspan="2"><span class="text-primary">{{orderDets.hotel_name}}</span></td>
+            </tr>
+            <tr>
+              <td width="120">Order By</td>
+              <td><span class="text-primary">{{orderDets.order_by}}</span></td>
+              <td><span class="floatRight">Contact Number <span class="text-primary">{{orderDets.contact_number}}</span> </span></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Menu</th>
+              <th>Rate</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let menu of menuDets; let i=index;">
+              <td>{{i+1}}</td>
+              <td>{{menu.name}}</td>
+              <td>{{menu.rate}}</td>
+              <td>{{menu.quantity}}</td>
+              <td>{{menu.quantity * menu.rate}}</td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td><span class="floatRight bold">Total Amount</span></td>
+              <td><span class="bold">{{totalAmt}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-12 row" *ngIf="approvalSuccess">
+        <div class="alert alert-success" role="alert">
+          <span><i class="fa fa-check"></i> {{approvalSuccess}} <span class="text-primary"><i class="fa fa-spinner fa-pulse"></i> Please Wait...</span></span>
+        </div>
+      </div>
+
+      <div class="col-md-12 row" *ngIf="approvalError">
+        <div class="alert alert-danger" role="alert">
+          <span><i class="fa fa-times"></i> There is some problem, please try again later.</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-sm" (click)="approve_request()" [disabled]="approvalError || approvalSuccess" *ngIf="orderFlag== 1"><i class="fa fa-check"></i> Approve</button>
+      <button class="btn btn-danger btn-sm"  (click)="reject_request()" [disabled]="approvalError || approvalSuccess" *ngIf="orderFlag == 1"><i class="fa fa-times"></i> Reject</button>
+
+      <div class="col-md-6" *ngIf="orderFlag == 2">
+        <input type="text" class="form-control" placeholder="Enter Delivery Mode" [(ngModel)]="delMode" list="deliModes">
+        <datalist id="deliModes">
+          <option value="{{mode.delivery_mode}}" *ngFor="let mode of deliveryModes">{{mode.delivery_mode}}</option>
+        </datalist>
+      </div>
+      <div class="col-md-6 row" *ngIf="orderFlag == 2">
+          <button class="btn btn-info btn-sm mt5"  (click)="out_for_delivery()" [disabled]="approvalError || approvalSuccess || !delMode"><i class="fa fa-truck"></i> Out for Delivery</button>
+      </div>
+  </div>
+</div>
